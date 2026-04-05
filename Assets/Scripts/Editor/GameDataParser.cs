@@ -1,0 +1,184 @@
+﻿using UnityEngine;
+using UnityEditor;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+
+public class GameDataParser : EditorWindow
+{
+    private static string itemCsvPath = "Assets/Datas/ItemTable.csv";
+    private static string itemSavePath = "Assets/Resources/ItemData";
+    [MenuItem("Tools/Data Parse/Item CSV")]
+    public static void ParseItemCSV()
+    {
+        ParseData<ItemData>(itemCsvPath, itemSavePath);
+    }
+
+    // =======================================================
+    // 핵심 파싱 엔진
+    // =======================================================
+    private static void ParseData<T>(string csvFilePath, string savePath) where T : ScriptableObject
+    {
+        //==========================================================
+        // Part 1. 전처리
+        Debug.Log($"<color=cyan><b>[{typeof(T).Name}] CSV 파싱 시작...</b></color>");
+        
+        TextAsset csvData = AssetDatabase.LoadAssetAtPath<TextAsset>(csvFilePath);
+        if (csvData == null)
+        {
+            Debug.LogError($"<color=red><b>CSV 파일을 찾을 수 없습니다: {csvFilePath}</b></color>");
+            return;
+        }
+
+        // 저장 폴더 자동 생성 로직 개선 (중첩 폴더 지원)
+        CreateFolderRecursive(savePath);
+
+        string[] rows = csvData.text.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        if (rows.Length <= 1)
+        {
+            Debug.LogWarning($"<color=yellow><b>CSV 파일에 데이터가 없습니다: {csvFilePath}</b></color>");
+            return;
+        }
+
+        //==========================================================
+        // Part 2. 헤더 매핑 및 리플렉션 준비
+        Dictionary<string, int> columnIndex = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        string[] headers = rows[0].Split(',');
+        for (int i = 0; i < headers.Length; i++)
+        {
+            string headerName = headers[i].Trim();
+            if (!string.IsNullOrEmpty(headerName) && !columnIndex.ContainsKey(headerName))
+                columnIndex.Add(headerName, i);
+        }
+
+        //==========================================================
+        // Part 3. 리플렉션 및 데이터 바인딩
+        FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        int count = 0;
+        HashSet<string> validAssetPaths = new HashSet<string>();
+        for (int i = 1; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split(',');
+
+            //==========================================================
+            // Step 1. 공통 식별자 (ID, Name) 추출
+            string idStr = GetColumnValue(columns, columnIndex, "ID");
+            string nameStr = GetColumnValue(columns, columnIndex, "Name");
+            if (string.IsNullOrEmpty(idStr) || !int.TryParse(idStr, out int id)) continue;
+
+            string fullPath = $"{savePath}/{typeof(T).Name}_{id}_{nameStr}.asset";
+            validAssetPaths.Add(fullPath);
+
+            T assetData = AssetDatabase.LoadAssetAtPath<T>(fullPath);
+            bool isNew = false;
+            
+            if (assetData == null)
+            {
+                assetData = ScriptableObject.CreateInstance<T>();
+                isNew = true;
+            }
+
+            //==========================================================
+            // Step 2. 리플렉션 자동 매핑 (기본 자료형 및 Enum)
+            foreach (FieldInfo field in fields)
+            {
+                string csvValue = GetColumnValue(columns, columnIndex, field.Name);
+                if (string.IsNullOrEmpty(csvValue)) continue;
+
+                Type fieldType = field.FieldType;
+                try
+                {
+                    // 1. 기본 자료형
+                    if (fieldType == typeof(int) && int.TryParse(csvValue, out int intVal)) field.SetValue(assetData, intVal);
+                    else if (fieldType == typeof(float) && float.TryParse(csvValue, out float floatVal)) field.SetValue(assetData, floatVal);
+                    else if (fieldType == typeof(string)) field.SetValue(assetData, csvValue);
+                    else if (fieldType == typeof(bool)) field.SetValue(assetData, (csvValue == "1" || csvValue.ToLower() == "true" || csvValue.ToLower() == "t"));
+                    else if (fieldType.IsEnum && Enum.TryParse(fieldType, csvValue, true, out object enumVal)) field.SetValue(assetData, enumVal);
+                    // 2. 특수 자료형
+                    else if (fieldType == typeof(List<ItemEffect>)) field.SetValue(assetData, ParseEffects(csvValue));
+                    else if (fieldType == typeof(List<ItemCondition>)) field.SetValue(assetData, ParseConditions(csvValue));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning($"[ID:{id}] {field.Name} 파싱 오류: {e.Message}");
+                }
+            }
+
+            //==========================================================
+            // Step 3. 데이터 저장
+            if (isNew) AssetDatabase.CreateAsset(assetData, fullPath);
+            EditorUtility.SetDirty(assetData);
+            count++;
+        }
+
+        // =======================================================
+        // Part 4. 저장 및 삭제 로직
+        // =======================================================
+        int deletedCount = 0;
+        string[] existingGuids = AssetDatabase.FindAssets($"t:{typeof(T).Name}", new[] { savePath });      
+        foreach (string guid in existingGuids)
+        {
+            string existingPath = AssetDatabase.GUIDToAssetPath(guid);
+            if (!validAssetPaths.Contains(existingPath))
+            {
+                AssetDatabase.DeleteAsset(existingPath);
+                deletedCount++;
+            }
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        Debug.Log($"<color=green><b>[{typeof(T).Name}] 파싱 완료! 갱신/생성: {count}개 | 삭제된 더미: {deletedCount}개</b></color>");
+    }
+
+    // =======================================================
+    // 헬퍼 함수 모음
+    // =======================================================
+    public static string GetColumnValue(string[] columns, Dictionary<string, int> columnIndexMap, string columnName)
+    {
+        if (columnIndexMap.TryGetValue(columnName, out int index) && index < columns.Length)
+            return columns[index].Trim();
+        return string.Empty;
+    }
+
+    private static void CreateFolderRecursive(string path)
+    {
+        string[] folders = path.Split('/');
+        string currentPath = folders[0];
+        for (int i = 1; i < folders.Length; i++)
+        {
+            if (!AssetDatabase.IsValidFolder(currentPath + "/" + folders[i]))
+            {
+                AssetDatabase.CreateFolder(currentPath, folders[i]);
+            }
+            currentPath += "/" + folders[i];
+        }
+    }
+
+    // =======================================================
+    // 커스텀 리스트 파서
+    // =======================================================
+    private static List<ItemEffect> ParseEffects(string data)
+    {
+        List<ItemEffect> list = new List<ItemEffect>();
+        foreach (string eff in data.Split('|'))
+        {
+            string[] split = eff.Split(':');
+            if (split.Length == 2 && Enum.TryParse(split[0], out StatType stat) && float.TryParse(split[1], out float val))
+                list.Add(new ItemEffect { Stat = stat, Value = val });
+        }
+        return list;
+    }
+
+    private static List<ItemCondition> ParseConditions(string data)
+    {
+        List<ItemCondition> list = new List<ItemCondition>();
+        foreach (string cond in data.Split('|'))
+        {
+            string[] split = cond.Split(':');
+            if (split.Length == 2 && Enum.TryParse(split[0], out ConditionType condType))
+                list.Add(new ItemCondition { Condition = condType, Value = split[1] });
+        }
+        return list;
+    }
+}
