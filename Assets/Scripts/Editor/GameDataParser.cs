@@ -6,12 +6,20 @@ using System.Reflection;
 
 public class GameDataParser : EditorWindow
 {
-    private static string itemCsvPath = "Assets/Datas/ItemTable.csv";
+    private static string itemCsvPath = "Assets/Datas/Item.csv";
     private static string itemSavePath = "Assets/Resources/ItemData";
     [MenuItem("Tools/Data Parse/Item CSV")]
     public static void ParseItemCSV()
     {
         ParseData<ItemData>(itemCsvPath, itemSavePath);
+    }
+
+    private static string statCsvPath = "Assets/Datas/Stat.csv";
+    private static string statSavePath = "Assets/Resources/StatData";
+    [MenuItem("Tools/Data Parse/Stat CSV")]
+    public static void ParseStatCSV()
+    {
+        ParseData<StatData>(statCsvPath, statSavePath);
     }
 
     // =======================================================
@@ -33,8 +41,9 @@ public class GameDataParser : EditorWindow
         // 저장 폴더 자동 생성 로직 개선 (중첩 폴더 지원)
         CreateFolderRecursive(savePath);
 
-        string[] rows = csvData.text.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-        if (rows.Length <= 1)
+        // string[] rows = csvData.text.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        List<string[]> rows = ReadCSV(csvData.text);
+        if (rows.Count <= 1)
         {
             Debug.LogWarning($"<color=yellow><b>CSV 파일에 데이터가 없습니다: {csvFilePath}</b></color>");
             return;
@@ -43,7 +52,7 @@ public class GameDataParser : EditorWindow
         //==========================================================
         // Part 2. 헤더 매핑 및 리플렉션 준비
         Dictionary<string, int> columnIndex = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        string[] headers = rows[0].Split(',');
+        string[] headers = rows[0];
         for (int i = 0; i < headers.Length; i++)
         {
             string headerName = headers[i].Trim();
@@ -56,9 +65,9 @@ public class GameDataParser : EditorWindow
         FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
         int count = 0;
         HashSet<string> validAssetPaths = new HashSet<string>();
-        for (int i = 1; i < rows.Length; i++)
+        for (int i = 1; i < rows.Count; i++)
         {
-            string[] columns = rows[i].Split(',');
+            string[] columns = rows[i];
 
             //==========================================================
             // Step 1. 공통 식별자 (ID, Name) 추출
@@ -134,7 +143,65 @@ public class GameDataParser : EditorWindow
     // =======================================================
     // 헬퍼 함수 모음
     // =======================================================
-    public static string GetColumnValue(string[] columns, Dictionary<string, int> columnIndexMap, string columnName)
+    private static List<string[]> ReadCSV(string text)
+    {
+        List<string[]> rows = new List<string[]>();
+        List<string> columns = new List<string>();
+        bool inQuotes = false;
+        string currentValue = "";
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            char c = text[i];
+
+            if (c == '\"')
+            {
+                // CSV 규칙: 큰따옴표 안에서 "" 는 하나의 " 로 취급함
+                if (inQuotes && i + 1 < text.Length && text[i + 1] == '\"')
+                {
+                    currentValue += '\"';
+                    i++; // 이스케이프된 따옴표 건너뛰기
+                }
+                else
+                {
+                    inQuotes = !inQuotes; // 따옴표 진입/탈출 토글
+                }
+            }
+            else if (c == ',' && !inQuotes)
+            {
+                // 따옴표 밖의 쉼표는 컬럼 구분자
+                columns.Add(currentValue);
+                currentValue = "";
+            }
+            else if ((c == '\n' || c == '\r') && !inQuotes)
+            {
+                // 따옴표 밖의 줄바꿈은 행 구분자
+                if (c == '\r' && i + 1 < text.Length && text[i + 1] == '\n') 
+                    i++; // \r\n 형태일 경우 \n 건너뛰기
+                
+                columns.Add(currentValue);
+                rows.Add(columns.ToArray());
+                columns.Clear();
+                currentValue = "";
+            }
+            else
+            {
+                // 일반 문자
+                currentValue += c;
+            }
+        }
+
+        // 마지막 남은 데이터 처리
+        if (columns.Count > 0 || !string.IsNullOrEmpty(currentValue))
+        {
+            columns.Add(currentValue);
+            rows.Add(columns.ToArray());
+        }
+
+        return rows;
+    }
+
+    private static string GetColumnValue(string[] columns, Dictionary<string, int> columnIndexMap, string columnName)
     {
         if (columnIndexMap.TryGetValue(columnName, out int index) && index < columns.Length)
             return columns[index].Trim();

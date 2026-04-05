@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2427fa262f1a91045969c574f3ba4f4a, type: 3}
+  m_Name: StatData_22_Temperament
+  m_EditorClassIdentifier: Assembly-CSharp::StatData
+  ID: 22
+  Type: 22
+  Name: Temperament
+  Name_KR: "\uC131\uD488"
+  Description: "\uB538\uC758 \uB9C8\uC74C\uAC00\uC9D0\uACFC \uC131\uACA9\uC73C\uB85C
+    \uC655\uBE44\uC640\uC758 \uC778\uB9E5\uC5D0\uC11C \uD544\uC218\uC801\uC774\uB2E4."
+  StatCategory: 5
+  MinValue: 1
+  MaxValue: 999
+  IconPath: 

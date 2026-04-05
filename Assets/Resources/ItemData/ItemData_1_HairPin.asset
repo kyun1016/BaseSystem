@@ -17,9 +17,7 @@ MonoBehaviour:
   Name_KR: "\uBA38\uB9AC\uD540"
   Description: Test1
   ItemType: 1
-  Effects:
-  - Stat: 1
-    Value: 1
+  Effects: []
   MaxStack: 1
   Conditions: []
   IsHidden: 0

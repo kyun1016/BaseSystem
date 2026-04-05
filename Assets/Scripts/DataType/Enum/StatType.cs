@@ -5,9 +5,35 @@ using System.Collections.Generic;
 public enum StatType
 {
     None,
-    Health,
-    Stress,
+    Stamina,
+    Strength,
+    Intelligence,
+    Elegance,
     Charm,
+    Ethics,
+    Faith,
+    Karma,
+    Sensitivity,
+    Stress,
+    CombatSkill,
+    Attack,
+    Defense,
+    MagicSkill,
+    MagicPower,
+    AntiMagic,
+    Etiquette,
+    Art,
+    Speech,
+    Cooking,
+    Housework,
+    Temperament,
+    Motherhood,
+    RelationPrince,
+    RelationFather,
+    RelationButler,
+    RelationDemonKing,
+    KillCount,
+
     MAX_COUNT
     // 필요에 따라 추가
 }

@@ -1,0 +1,9 @@
+﻿ID,Name,ScheduleType,Cost,SuccessRate,StatModifiers,Reward,Conditions,Weight,SpritePath
+1,집안일,,,,,,Age:10|Health:5,1,
+2,보모,,,,,,Age:10,1,
+3,여관,,,,,,Age:10,1,
+4,농장,,,,,,Age:10,1,
+,성당,,,,,,Age:10,,
+,레스토랑,,,,,,Age:10,,
+,나무꾼,,,,,,Age:11,,
+,미장원,,,,,,Age:11,,
