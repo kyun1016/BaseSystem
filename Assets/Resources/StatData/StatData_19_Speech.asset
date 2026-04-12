@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: StatData_19_Speech
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 19
-  Type: 19
+  Type: 18
   Name: Speech
   Name_KR: "\uD654\uC220"
   Description: "\uB538\uC774 \uB9D0\uC744 \uC798\uD558\uB294 \uB2A5\uB825\uC73C\uB85C
     \uD6C4\uAD81\uACFC\uC758 \uC778\uB9E5\uACFC \uAD11\uB300\uC640\uC758 \uB300\uD654\uC5D0
     \uD544\uC694\uD55C \uC2A4\uD15F\uC774\uB2E4."
-  StatCategory: 4
+  StatCategory: 3
   MinValue: 1
   MaxValue: 999
   IconPath: 

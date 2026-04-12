@@ -11,7 +11,7 @@ public class StatData : ScriptableObject
     [TextArea] 
     public string Description;
     public StatCategory StatCategory;
-    public float MinValue;
-    public float MaxValue;
+    public int MinValue;
+    public int MaxValue;
     public string IconPath;
 }

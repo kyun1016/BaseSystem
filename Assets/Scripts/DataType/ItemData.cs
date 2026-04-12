@@ -23,10 +23,13 @@ public class ItemData : ScriptableObject
     public string Name_KR;           // Name_KR (한글 이름)
     [TextArea] 
     public string Description;      // Description
-    public ItemType ItemType;       // ItemType
-    
-    public List<ItemEffect> Effects = new List<ItemEffect>(); // Effects
-    public int MaxStack = 1;        // MaxStack
+    public ItemType ItemType;
+    public int BuyPrice;
+    public int SellPrice;
+    public StatType EffectStatType1;
+    public int EffectValue1;
+    public StatType EffectStatType2;
+    public int EffectValue2;
     
     public List<ItemCondition> Conditions = new List<ItemCondition>(); // Conditions
     public bool IsHidden;           // IsHidden

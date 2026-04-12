@@ -87,6 +87,9 @@ public class GameDataParser : EditorWindow
                 isNew = true;
             }
 
+            // 기존 에셋 GUID는 유지하되, 이전 파싱 값이 남지 않도록 필드를 기본값으로 초기화
+            ResetAssetFields(assetData, fields);
+
             //==========================================================
             // Step 2. 리플렉션 자동 매핑 (기본 자료형 및 Enum)
             foreach (FieldInfo field in fields)
@@ -219,6 +222,35 @@ public class GameDataParser : EditorWindow
                 AssetDatabase.CreateFolder(currentPath, folders[i]);
             }
             currentPath += "/" + folders[i];
+        }
+    }
+
+    private static void ResetAssetFields<T>(T assetData, FieldInfo[] fields) where T : ScriptableObject
+    {
+        foreach (FieldInfo field in fields)
+        {
+            Type fieldType = field.FieldType;
+
+            if (fieldType.IsValueType)
+            {
+                field.SetValue(assetData, Activator.CreateInstance(fieldType));
+            }
+            else if (fieldType == typeof(string))
+            {
+                field.SetValue(assetData, string.Empty);
+            }
+            else if (fieldType.IsGenericType)
+            {
+                Type genericDef = fieldType.GetGenericTypeDefinition();
+                if (genericDef == typeof(List<>) || genericDef == typeof(Dictionary<,>))
+                    field.SetValue(assetData, Activator.CreateInstance(fieldType));
+                else
+                    field.SetValue(assetData, null);
+            }
+            else
+            {
+                field.SetValue(assetData, null);
+            }
         }
     }
 

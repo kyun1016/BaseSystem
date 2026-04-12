@@ -17,10 +17,12 @@ MonoBehaviour:
   Name_KR: "\uB098\uBE44\uC7A5\uC2DD"
   Description: Test4
   ItemType: 1
-  Effects: []
-  MaxStack: 1
-  Conditions:
-  - Condition: 1
-    Value: Hat
+  BuyPrice: 4000
+  SellPrice: 400
+  EffectStatType1: 3
+  EffectValue1: 4
+  EffectStatType2: 9
+  EffectValue2: 4
+  Conditions: []
   IsHidden: 1
   SpritePath: 

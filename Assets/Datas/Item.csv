@@ -1,5 +1,6 @@
-﻿ID,Name,Name_KR,Description,ItemType,Effects,MaxStack,Conditions,IsHidden,SpritePath
-1,HairPin,머리핀,Test1,Equip_Hat,Health:1,1,,,
-2,Hat,모자,Test2,Equip_Hat,Health:1,1,,,
-3,Tiara,티아라,Test3,Equip_Hat,Health:1,1,,,
-4,FlyPin,나비장식,Test4,Equip_Hat,Health:1,1,Item:Hat,1,
+﻿ID,Name,Name_KR,Description,ItemType,BuyPrice,SellPrice,EffectStatType1,EffectValue1,EffectStatType2,EffectValue2,Conditions,IsHidden,SpritePath
+1,HairPin,머리핀,Test1,Equip_Helmet,1000,100,Charm,1,Ethics,1,,,
+2,Hat,모자,Test2,Equip_Helmet,2000,200,Stamina,2,Faith,2,,,
+3,Tiara,티아라,Test3,Equip_Helmet,3000,300,Strength,3,Karma,3,,,
+4,FlyPin,나비장식,Test4,Equip_Helmet,4000,400,Intelligence,4,Sensitivity,4,,1,
+5,Apple,사과,Test5,Consumable,5000,500,Elegance,4,Stress,4,,,

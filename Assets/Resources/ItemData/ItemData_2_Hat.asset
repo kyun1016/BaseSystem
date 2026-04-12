@@ -17,8 +17,12 @@ MonoBehaviour:
   Name_KR: "\uBAA8\uC790"
   Description: Test2
   ItemType: 1
-  Effects: []
-  MaxStack: 1
+  BuyPrice: 2000
+  SellPrice: 200
+  EffectStatType1: 1
+  EffectValue1: 2
+  EffectStatType2: 7
+  EffectValue2: 2
   Conditions: []
   IsHidden: 0
   SpritePath: 

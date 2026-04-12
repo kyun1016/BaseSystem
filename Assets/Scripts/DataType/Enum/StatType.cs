@@ -27,13 +27,23 @@ public enum StatType
     Cooking,
     Housework,
     Temperament,
+    Age,
+    Year,
+    Month,
+    Date,
+    BloodType,
+    ZodiacSign,
+    Height,
+    Weight,
+    Breast,
+    Waist,
+    Hip,
     Motherhood,
     RelationPrince,
     RelationFather,
     RelationButler,
     RelationDemonKing,
     KillCount,
-
     MAX_COUNT
     // 필요에 따라 추가
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_7_Faith
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 7
-  Type: 7
+  Type: 6
   Name: Faith
   Name_KR: "\uC2E0\uC559"
   Description: "\uB538\uC774 \uC2E0\uC744 \uBBFF\uB294 \uBBFF\uC74C\uC758 \uC815\uB3C4.
@@ -24,7 +24,7 @@ MonoBehaviour:
     \uADF8\uB9AC\uACE0 \uC77C\uBD80 \uBAAC\uC2A4\uD130\uC758 \uACBD\uC6B0 \uB300\uD654\uB97C
     \uD1B5\uD574 \uD68C\uD53C\uB97C \uD558\uAE30\uB3C4 \uD55C\uB2E4. \uB300\uC8FC\uAD50\uC640
     \uC218\uB140 \uC5D4\uB529\uC5D0 \uD544\uC218\uC801\uC774\uB2E4."
-  StatCategory: 1
+  StatCategory: 0
   MinValue: 1
   MaxValue: 999
   IconPath: 

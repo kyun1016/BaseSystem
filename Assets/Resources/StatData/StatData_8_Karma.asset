@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_8_Karma
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 8
-  Type: 8
+  Type: 7
   Name: Karma
   Name_KR: "\uC778\uACFC"
   Description: "\uB538\uC774 \uC0B4\uBA74\uC11C \uC9C0\uC740 \uC8C4\uC758 \uC815\uB3C4.
@@ -25,9 +25,9 @@ MonoBehaviour:
     \uB0AE\uAC8C \uAE54\uB9AC\uBA74\uC11C \uC0AC\uC2E4\uC0C1 \uC808\uC5F0\uB2F9\uD55C\uB2E4.
     \uB54C\uBB38\uC5D0 \uC5D4\uB529\uC5D0\uC11C\uB3C4 \uC218\uD638\uC2E0\uC774 \uC7A5\uCC28
     \uCC9C\uACC4\uC5D0\uC11C\uB3C4 \uBD80\uB140\uC758 \uC7AC\uD68C\uB97C \uB9D0\uD574\uC8FC\uC9C0
-    \uC54A\uB294\uB2E4.\_\uC774 \uB54C\uBB38\uC5D0 \uC2EC\uAC01\uD55C \uB2A5\uB825\uCE58\uC774\uC9C0\uB9CC
+    \uC54A\uB294\uB2E4. \uC774 \uB54C\uBB38\uC5D0 \uC2EC\uAC01\uD55C \uB2A5\uB825\uCE58\uC774\uC9C0\uB9CC
     \uCCB4\uAC10\uC740 \uC798 \uB418\uC9C0 \uC54A\uB294\uB2E4."
-  StatCategory: 1
+  StatCategory: 0
   MinValue: 1
   MaxValue: 999
-  IconPath: 999
+  IconPath: 

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: StatData_15_MagicPower
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 15
-  Type: 15
+  Type: 14
   Name: MagicPower
   Name_KR: "\uB9C8\uB825"
   Description: "\uB538\uC758 \uB9C8\uBC95 \uB300\uBBF8\uC9C0 \uB2A5\uB825\uC744 \uB298\uB824\uC8FC\uB294
     \uB2A5\uB825\uCE58\uB85C \uB192\uC744\uC218\uB85D \uB300\uBBF8\uC9C0\uAC00 \uB294\uB2E4."
-  StatCategory: 3
+  StatCategory: 2
   MinValue: 1
   MaxValue: 999
   IconPath: 
