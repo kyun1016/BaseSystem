@@ -46,11 +46,17 @@ public class PlayerStatManager : Singleton<PlayerStatManager>
         Debug.Log($"[{statType}] 스탯 변동: {currentValue} -> {newValue}");
     }
 
-    public void AddStat(StatType statType, int amount)
+    public void AddStat(int statID, int amount)
+    {
+        int newValue = currentStats[statID - GameDataHeaders.Stat] + amount;
+        SetStat((StatType)statID, newValue);
+    }
+        public void AddStat(StatType statType, int amount)
     {
         int newValue = currentStats[(int)statType] + amount;
         SetStat(statType, newValue);
     }
+
 
     public int GetStatValue(StatType statType)
     {

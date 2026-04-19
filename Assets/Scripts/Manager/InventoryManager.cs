@@ -114,10 +114,10 @@ public class InventoryManager : Singleton<InventoryManager>
         if (!RemoveItemAt(index)) return false;
 
         // 3. 아이템 효과 적용
-        if(itemData.EffectStatType1 != StatType.None)
-            PlayerStatManager.Instance.AddStat(itemData.EffectStatType1, itemData.EffectValue1);
-        if(itemData.EffectStatType2 != StatType.None)
-            PlayerStatManager.Instance.AddStat(itemData.EffectStatType2, itemData.EffectValue2);
+        foreach (var effect in itemData.EffectStats)
+        {
+            PlayerStatManager.Instance.AddStat(effect.StatID, effect.Value);
+        }
 
         Debug.Log($"<color=orange>[아이템 사용] {itemData.Name_KR}을(를) 사용했습니다. (슬롯:{index})</color>");
         return true;

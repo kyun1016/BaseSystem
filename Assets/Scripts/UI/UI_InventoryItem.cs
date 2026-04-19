@@ -28,30 +28,34 @@ public class UI_InventoryItem : MonoBehaviour
         index = slotIndex;
         nameText.text = data.Name_KR;
         sellPriceText.text = data.SellPrice.ToString();
-        if(data.EffectStatType1 != StatType.None)
-            if(data.EffectValue1 > 0)
-                effect1Text.text = data.EffectStatType1.ToString() + "+" + data.EffectValue1.ToString();
-            else if(data.EffectValue1 < 0)
-                effect1Text.text = data.EffectStatType1.ToString() + "-" + Mathf.Abs(data.EffectValue1).ToString();
-            else
-                effect1Text.text = data.EffectStatType1.ToString();   
-        else
-            effect1Text.text = "";
-
-        
-        if(data.EffectStatType2 != StatType.None)
-            if(data.EffectValue2 > 0)
-                effect2Text.text = data.EffectStatType2.ToString() + "+" + data.EffectValue2.ToString();
-            else if(data.EffectValue2 < 0)
-                effect2Text.text = data.EffectStatType2.ToString() + "-" + Mathf.Abs(data.EffectValue2).ToString();
-            else
-                effect2Text.text = data.EffectStatType2.ToString();
-        else
-            effect2Text.text = "";
+        effect1Text.text = BuildEffectText(data, 0);
+        effect2Text.text = BuildEffectText(data, 1);
 
         // 아이콘 연결 로직 (추후 추가)
         // if (!string.IsNullOrEmpty(data.IconPath)) 
         //     iconImage.sprite = Resources.Load<Sprite>(data.IconPath);
+    }
+
+    private static string BuildEffectText(ItemData data, int effectIndex)
+    {
+        if (data == null || data.EffectStats == null || effectIndex < 0 || effectIndex >= data.EffectStats.Count)
+            return string.Empty;
+
+        var effect = data.EffectStats[effectIndex];
+
+        string statName = null;
+        if (DataManager.Instance != null)
+            DataManager.Instance.TryGetStatName(effect.StatID, out statName);
+
+        if (string.IsNullOrWhiteSpace(statName))
+            statName = effect.StatID.ToString();
+
+        if (effect.Value > 0)
+            return statName + "+" + effect.Value.ToString();
+        if (effect.Value < 0)
+            return statName + "-" + Mathf.Abs(effect.Value).ToString();
+
+        return statName;
     }
 
     // 사용 버튼을 눌렀을 때 실행
