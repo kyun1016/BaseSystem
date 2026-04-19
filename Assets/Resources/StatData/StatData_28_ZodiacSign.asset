@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_28_ZodiacSign
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 28
-  Type: 27
+  Type: 28
   Name: ZodiacSign
   Name_KR: "\uBCC4\uC790\uB9AC"
   Description: 

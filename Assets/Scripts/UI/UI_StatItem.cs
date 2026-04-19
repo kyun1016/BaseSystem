@@ -21,18 +21,14 @@ public class UI_StatItem : MonoBehaviour
         // if (!string.IsNullOrEmpty(data.IconPath)) 
         //     iconImage.sprite = Resources.Load<Sprite>(data.IconPath);
 
-        UpdateValue(currentValue, data.MaxValue);
+        statSlider.maxValue = data.MaxValue;
+        UpdateValue(currentValue);
     }
 
     // 값이 변할 때마다 호출됨
-    public void UpdateValue(int currentValue, int maxValue)
+    public void UpdateValue(int currentValue)
     {
         valueText.text = $"{currentValue}";
-        
-        if (statSlider != null)
-        {
-            statSlider.maxValue = maxValue;
-            statSlider.value = currentValue;
-        }
+        statSlider.value = currentValue;
     }
 }

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StatData_34_Motherhood
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 34
-  Type: 33
+  Type: 34
   Name: Motherhood
   Name_KR: "\uBAA8\uC131"
   Description: 
   StatCategory: 5
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

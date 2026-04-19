@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StatData_37_RelationButler
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 37
-  Type: 36
+  Type: 37
   Name: RelationButler
   Name_KR: "\uC9D1\uC0AC\uC640\uC758 \uAD00\uACC4"
   Description: 
   StatCategory: 5
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

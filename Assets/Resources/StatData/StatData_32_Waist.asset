@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_32_Waist
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 32
-  Type: 31
+  Type: 32
   Name: Waist
   Name_KR: "\uD5C8\uB9AC"
   Description: 

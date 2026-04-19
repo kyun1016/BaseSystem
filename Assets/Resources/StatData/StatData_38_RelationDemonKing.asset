@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StatData_38_RelationDemonKing
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 38
-  Type: 37
+  Type: 38
   Name: RelationDemonKing
   Name_KR: "\uB9C8\uC655\uACFC\uC758 \uAD00\uACC4"
   Description: 
   StatCategory: 5
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

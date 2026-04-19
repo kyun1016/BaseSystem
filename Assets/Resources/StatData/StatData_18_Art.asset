@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_18_Art
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 18
-  Type: 17
+  Type: 18
   Name: Art
   Name_KR: "\uC608\uC220"
   Description: "\uB538\uC758 \uC608\uC220\uC131\uACFC \uBBF8\uC801 \uB2A5\uB825\uC744
@@ -21,6 +21,6 @@ MonoBehaviour:
     \uBCF4\uBA70, \uC608\uC220\uB300\uD68C \uADF8\uB9BC\uC758 \uC810\uC218\uC640
     \uC5F0\uAD00\uC774 \uB192\uB2E4."
   StatCategory: 3
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

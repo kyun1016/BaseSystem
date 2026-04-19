@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StatData_35_RelationPrince
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 35
-  Type: 34
+  Type: 35
   Name: RelationPrince
   Name_KR: "\uC655\uC790\uC640\uC758 \uAD00\uACC4"
   Description: 
   StatCategory: 5
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

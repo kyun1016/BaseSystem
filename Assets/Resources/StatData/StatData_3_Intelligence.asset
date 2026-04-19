@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: StatData_3_Intelligence
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 3
-  Type: 2
+  Type: 3
   Name: Intelligence
   Name_KR: "\uC9C0\uB2A5"
   Description: "\uB538\uC758 \uC9C0\uC801 \uB2A5\uB825. \uC804\uD22C \uC2DC MP\uAC00
     \uB418\uBA70, \uBB34\uC0AC\uC218\uD589\uC5D0\uC11C '\uC228\uB294\uB2E4' \uCEE4\uB9E8\uB4DC\uC758
     \uC131\uACF5\uB960\uC774 \uC9C0\uB2A5\uACFC \uBE44\uB840\uD574 \uB192\uC544\uC9C4\uB2E4."
   StatCategory: 0
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

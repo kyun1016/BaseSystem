@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_29_Height
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 29
-  Type: 28
+  Type: 29
   Name: Height
   Name_KR: "\uD0A4"
   Description: 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_23_Age
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 23
-  Type: 22
+  Type: 23
   Name: Age
   Name_KR: "\uB098\uC774"
   Description: 

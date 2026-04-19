@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_24_Year
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 24
-  Type: 23
+  Type: 24
   Name: Year
   Name_KR: "\uB144"
   Description: 

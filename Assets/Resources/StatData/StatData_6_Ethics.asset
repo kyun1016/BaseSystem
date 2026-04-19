@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_6_Ethics
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 6
-  Type: 5
+  Type: 6
   Name: Ethics
   Name_KR: "\uB3C4\uB355\uC131"
   Description: "\uB538\uC758 \uC591\uC2EC\uACFC \uCC29\uD55C \uC131\uD488\uC758 \uC815\uB3C4.
@@ -24,6 +24,6 @@ MonoBehaviour:
     \uD608\uC561\uD615 A\uAC00 \uC544\uB2C8\uB77C\uBA74 \uAD00\uB9AC\uD558\uAE30
     \uAE4C\uB2E4\uB86D\uB2E4."
   StatCategory: 0
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

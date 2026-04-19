@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_5_Charm
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 5
-  Type: 4
+  Type: 5
   Name: Charm
   Name_KR: "\uC0C9\uAE30"
   Description: "\uB538\uC758 \uC544\uB984\uB2E4\uC6C0\uACFC \uC139\uC2DC\uD568. \uC62C\uB9AC\uAE30
@@ -24,6 +24,6 @@ MonoBehaviour:
     \uC0C9\uAE30\uCE58\uC640 \uAC19\uC740 \uC591\uC758 \uC0C9\uAE30\uC774 \uC624\uB974\uB294\uC9C0\uB77C
     \uBCC4\uC790\uB9AC \uC120\uD0DD\uC774 \uC911\uC694\uD55C \uD3B8."
   StatCategory: 0
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

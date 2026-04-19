@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StatData_39_KillCount
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 39
-  Type: 38
+  Type: 39
   Name: KillCount
   Name_KR: "\uBAAC\uC2A4\uD130 \uD0AC"
   Description: 
   StatCategory: 5
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

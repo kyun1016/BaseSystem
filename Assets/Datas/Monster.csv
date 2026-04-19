@@ -1,0 +1,26 @@
+﻿MonsterID,Name,Name_KR,Description,HP,MP,Damage,Skills,DropSoul (SoulID:Weight),DropItems (SoulID:Weight:Count),ObjectID,SpriteID
+mon_0001,Goblin,고블린,Test1,100,10,20,skill_001;skill_002,soul_0001:1,item_001:5:2;item_002:5:3,ob_0001,sp_0001
+mon_0002,Hat,고블린 궁수,Test2,,,,,soul_0002:1,,ob_0002,sp_0002
+mon_0003,Tiara,노움,Test3,,,,,,,ob_0003,sp_0003
+mon_0004,FlyPin,레이스,Test4,,,,,,,ob_0004,sp_0004
+mon_0005,Apple,슬라임,Test5,,,,,,,ob_0005,sp_0005
+mon_0006,,칼날늑대,,,,,,,,ob_0006,sp_0006
+mon_0007,,위치스램프,,,,,,,,ob_0007,sp_0007
+mon_0008,,,,,,,,,,ob_0008,sp_0008
+mon_0009,,,,,,,,,,ob_0009,sp_0009
+mon_0010,,,,,,,,,,ob_0010,sp_0010
+mon_0011,,,,,,,,,,ob_0011,sp_0011
+mon_0012,,,,,,,,,,ob_0012,sp_0012
+mon_0013,,,,,,,,,,ob_0013,sp_0013
+mon_0014,,,,,,,,,,,
+mon_0015,,,,,,,,,,,
+mon_0016,,,,,,,,,,,
+mon_0017,,,,,,,,,,,
+mon_0018,,,,,,,,,,,
+mon_0019,,,,,,,,,,,
+mon_0020,,,,,,,,,,,
+mon_0021,,,,,,,,,,,
+mon_0022,,,,,,,,,,,
+mon_0023,,,,,,,,,,,
+mon_0024,,,,,,,,,,,
+mon_0025,,,,,,,,,,,

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_10_Stress
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 10
-  Type: 9
+  Type: 10
   Name: Stress
   Name_KR: "\uC2A4\uD2B8\uB808\uC2A4"
   Description: "\uB9D0 \uADF8\uB300\uB85C \uC2A4\uD2B8\uB808\uC2A4\uC774\uBA70 \uB0AE\uC744\uC218\uB85D
@@ -25,6 +25,6 @@ MonoBehaviour:
     \uBE44\uAD50\uD574\uC11C \uBD88\uB7C9\uD654 \uC870\uAC74\uC744, \uCCB4\uB825
     \uC218\uCE58\uC640 \uBE44\uAD50\uD574\uC11C \uC9C8\uBCD1 \uC870\uAC74\uC774 \uC131\uB9BD\uD55C\uB2E4."
   StatCategory: 0
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

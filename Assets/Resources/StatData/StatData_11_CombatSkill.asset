@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_11_CombatSkill
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 11
-  Type: 10
+  Type: 11
   Name: CombatSkill
   Name_KR: "\uC804\uD22C\uAE30\uC220"
   Description: "\uB538\uC758 \uC804\uD22C\uB2A5\uB825\uC744 \uC54C\uB824\uC8FC\uB294
@@ -21,6 +21,6 @@ MonoBehaviour:
     \uB538\uC758 \uACF5\uACA9 \uC131\uACF5 \uD655\uB960\uACFC \uB3C4\uC804\uC790/\uBAAC\uC2A4\uD130\uC758
     \uACF5\uACA9\uD68C\uD53C \uD655\uB960\uC744 \uB298\uB824\uC900\uB2E4."
   StatCategory: 1
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

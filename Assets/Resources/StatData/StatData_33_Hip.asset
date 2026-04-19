@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_33_Hip
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 33
-  Type: 32
+  Type: 33
   Name: Hip
   Name_KR: "\uC5C9\uB369\uC774"
   Description: 

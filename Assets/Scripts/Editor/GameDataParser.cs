@@ -6,21 +6,78 @@ using System.Reflection;
 
 public class GameDataParser : EditorWindow
 {
-    private static string itemCsvPath = "Assets/Datas/Item.csv";
-    private static string itemSavePath = "Assets/Resources/ItemData";
-    [MenuItem("Tools/Data Parse/Item CSV")]
-    public static void ParseItemCSV()
+    private static readonly string[] DataNames = { "Item", "Stat", "Monster" };
+
+    [MenuItem("Tools/Data Parse/Parse All CSV")]
+    public static void ParseAllCSV()
     {
-        ParseData<ItemData>(itemCsvPath, itemSavePath);
+        foreach (string dataName in DataNames)
+        {
+            ParseByDataName(dataName);
+        }
     }
 
-    private static string statCsvPath = "Assets/Datas/Stat.csv";
-    private static string statSavePath = "Assets/Resources/StatData";
-    [MenuItem("Tools/Data Parse/Stat CSV")]
-    public static void ParseStatCSV()
+    [MenuItem("Tools/Data Parse/Select CSV")]
+    public static void ShowParseMenu()
     {
-        ParseData<StatData>(statCsvPath, statSavePath);
+        GenericMenu menu = new GenericMenu();
+        foreach (string dataName in DataNames)
+        {
+            string capturedName = dataName;
+            menu.AddItem(new GUIContent($"{capturedName} CSV"), false, () => ParseByDataName(capturedName));
+        }
+        menu.ShowAsContext();
     }
+
+    private static void ParseByDataName(string dataName)
+    {
+        string typeName = $"{dataName}Data";
+        Type dataType = ResolveType(typeName);
+        if (dataType == null || !typeof(ScriptableObject).IsAssignableFrom(dataType))
+        {
+            Debug.LogError($"<color=red><b>타입을 찾을 수 없습니다: {typeName}</b></color>");
+            return;
+        }
+
+        string csvPath = $"Assets/Datas/{dataName}.csv";
+        string savePath = $"Assets/Resources/{dataName}Data";
+
+        MethodInfo parseMethod = typeof(GameDataParser).GetMethod(nameof(ParseData), BindingFlags.NonPublic | BindingFlags.Static);
+        MethodInfo genericParseMethod = parseMethod.MakeGenericMethod(dataType);
+        genericParseMethod.Invoke(null, new object[] { csvPath, savePath });
+    }
+
+    private static Type ResolveType(string typeName)
+    {
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            Type type = assembly.GetType(typeName);
+            if (type != null)
+                return type;
+
+            Type[] assemblyTypes;
+            try
+            {
+                assemblyTypes = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                assemblyTypes = e.Types;
+            }
+
+            if (assemblyTypes == null)
+                continue;
+
+            foreach (Type assemblyType in assemblyTypes)
+            {
+                if (assemblyType != null && assemblyType.Name == typeName)
+                    return assemblyType;
+            }
+        }
+
+        return null;
+    }
+
 
     // =======================================================
     // 핵심 파싱 엔진

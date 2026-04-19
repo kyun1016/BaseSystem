@@ -6,13 +6,20 @@ public class InventoryManager : Singleton<InventoryManager>
 {
     private List<int> inventoryData = new List<int>();
 
-    // UI 갱신을 위한 이벤트 방송국 (아이템 ID)
-    public event Action<int> OnInventoryChanged;
+    // UI 갱신을 위한 이벤트 방송국 (아이템 ID, 슬롯 인덱스, 추가 여부)
+    public event Action<int, int, bool> OnInventoryChanged;
 
     public void Init()
     {
         // 추후 세이브 파일이 있다면 여기서 inventoryData를 로드해서 덮어씌웁니다.
         inventoryData.Clear();
+
+        InventoryManager.Instance.AddItem(1);
+        InventoryManager.Instance.AddItem(1);
+        InventoryManager.Instance.AddItem(2);
+        InventoryManager.Instance.AddItem(3);
+        InventoryManager.Instance.AddItem(4);
+        InventoryManager.Instance.AddItem(5);
         Debug.Log("인벤토리 시스템 초기화 완료");
     }
 
@@ -30,7 +37,8 @@ public class InventoryManager : Singleton<InventoryManager>
         }
 
         inventoryData.Add(itemID);
-        OnInventoryChanged?.Invoke(itemID);
+        int addedIndex = inventoryData.Count - 1;
+        OnInventoryChanged?.Invoke(itemID, addedIndex, true);
         Debug.Log($"[아이템 획득] {itemData.Name_KR} (총 {GetItemCount(itemID)}개)");
     }
 
@@ -39,14 +47,27 @@ public class InventoryManager : Singleton<InventoryManager>
     // =======================================================
     public bool RemoveItem(int itemID)
     {
-        if (!inventoryData.Contains(itemID))
+        int removeIndex = inventoryData.IndexOf(itemID);
+        if (removeIndex < 0)
         {
             Debug.Log("아이템이 부족합니다.");
             return false; // 아이템이 없거나 부족하면 실패 반환
         }
 
-        inventoryData.Remove(itemID);
-        OnInventoryChanged?.Invoke(itemID);
+        return RemoveItemAt(removeIndex);
+    }
+
+    public bool RemoveItemAt(int index)
+    {
+        if (index < 0 || index >= inventoryData.Count)
+        {
+            Debug.Log("잘못된 인벤토리 인덱스입니다.");
+            return false;
+        }
+
+        int itemID = inventoryData[index];
+        inventoryData.RemoveAt(index);
+        OnInventoryChanged?.Invoke(itemID, index, false);
         return true;
     }
 
@@ -55,14 +76,27 @@ public class InventoryManager : Singleton<InventoryManager>
     // =======================================================
     public bool UseItem(int itemID)
     {
-        // 1. 인벤토리에 해당 아이템이 있는지 확인
-         if (!inventoryData.Contains(itemID))
+        int removeIndex = inventoryData.IndexOf(itemID);
+        if (removeIndex < 0)
         {
             Debug.Log("아이템이 부족합니다.");
             return false; // 아이템이 없거나 부족하면 실패 반환
         }
 
-        // 2. 아이템 사용 조건 검사
+        return UseItemAt(removeIndex);
+    }
+
+    public bool UseItemAt(int index)
+    {
+        if (index < 0 || index >= inventoryData.Count)
+        {
+            Debug.Log("잘못된 인벤토리 인덱스입니다.");
+            return false;
+        }
+
+        int itemID = inventoryData[index];
+
+        // 1. 아이템 사용 조건 검사
         ItemData itemData = DataManager.Instance.GetItem(itemID);
         if (itemData == null)
         {
@@ -70,28 +104,22 @@ public class InventoryManager : Singleton<InventoryManager>
             return false;
         }
 
-        if(itemData.ItemType == ItemType.Consumable)
-        {
-            // 예시: 소비 아이템은 사용 조건이 없다고 가정 (추후 확장 가능)
-        }
-        else
+        if(itemData.ItemType != ItemType.Consumable)
         {
             Debug.LogWarning($"아이템 {itemData.Name_KR}은(는) 사용 불가능한 타입입니다.");
             return false;
         }
 
-        // 3. 아이템 제거 (소비)
-        if (!RemoveItem(itemID)) return false;
+        // 2. 정확히 해당 슬롯 1개 제거
+        if (!RemoveItemAt(index)) return false;
 
-        
-
-        // 4. 아이템의 효과(Effects) 리스트를 순회하며 스탯 올려주기
+        // 3. 아이템 효과 적용
         if(itemData.EffectStatType1 != StatType.None)
             PlayerStatManager.Instance.AddStat(itemData.EffectStatType1, itemData.EffectValue1);
         if(itemData.EffectStatType2 != StatType.None)
             PlayerStatManager.Instance.AddStat(itemData.EffectStatType2, itemData.EffectValue2);
 
-        Debug.Log($"<color=orange>[아이템 사용] {itemData.Name_KR}을(를) 사용했습니다.</color>");
+        Debug.Log($"<color=orange>[아이템 사용] {itemData.Name_KR}을(를) 사용했습니다. (슬롯:{index})</color>");
         return true;
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_31_breast
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 31
-  Type: 30
+  Type: 31
   Name: breast
   Name_KR: "\uAC00\uC2B4"
   Description: 

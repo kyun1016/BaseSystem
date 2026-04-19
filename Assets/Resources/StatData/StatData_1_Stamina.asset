@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_1_Stamina
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 1
-  Type: 0
+  Type: 1
   Name: Stamina
   Name_KR: "\uCCB4\uB825"
   Description: "\uB538\uC758 \uAE30\uBCF8 \uCCB4\uB825. \uB192\uC744\uC218\uB85D
@@ -22,6 +22,6 @@ MonoBehaviour:
     \uAC78\uB9AC\uBA70 100 \uC774\uC0C1 \uCD08\uACFC\uD558\uBA74 \uBE48\uC0AC\uC0C1\uD0DC\uAC00
     \uB418\uACE0 \uC8FD\uB294\uB2E4. \uC804\uD22C \uC2DC HP\uAC00 \uB41C\uB2E4."
   StatCategory: 0
-  MinValue: 1
+  MinValue: 0
   MaxValue: 999
   IconPath: 

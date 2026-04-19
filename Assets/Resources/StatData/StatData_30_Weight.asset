@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_30_Weight
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 30
-  Type: 29
+  Type: 30
   Name: Weight
   Name_KR: "\uCCB4\uC911"
   Description: 

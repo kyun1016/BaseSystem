@@ -20,6 +20,10 @@ public class PlayerStatManager : Singleton<PlayerStatManager>
             {
                 currentStats[(int)statType] = stat.MinValue;
             }
+            else
+            {
+                Debug.LogWarning($"[PlayerStatManager] 초기화 중 StatData가 누락된 StatType: {statType}");
+            }
         }
     }
 

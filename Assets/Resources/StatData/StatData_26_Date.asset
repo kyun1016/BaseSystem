@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatData_26_Date
   m_EditorClassIdentifier: Assembly-CSharp::StatData
   ID: 26
-  Type: 25
+  Type: 26
   Name: Date
   Name_KR: "\uC77C"
   Description: 
