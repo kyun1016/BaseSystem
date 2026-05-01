@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 // 아이템 타입 정의 (CSV의 'ItemType' 항목에 들어가는 값과 일치해야 합니다)
-public enum ItemType
+public enum eItemType
 {
     None,
     Equip_Helmet,

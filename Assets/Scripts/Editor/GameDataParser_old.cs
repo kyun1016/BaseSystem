@@ -6,7 +6,7 @@ using System.Reflection;
 using System.IO;
 using System.Text;
 
-public class GameDataParser : EditorWindow
+public class GameDataParser_old : EditorWindow
 {
     private const string GeneratedMapFolder = "Assets/Datas/_Generated";
 

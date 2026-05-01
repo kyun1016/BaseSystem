@@ -6,10 +6,10 @@ public class UI_StatWindow : MonoBehaviour
     [SerializeField] private GameObject windowRoot;
     [SerializeField] private GameObject statItemPrefab;
     [SerializeField] private Transform statContentParent; // ScrollView의 Content
-    [SerializeField] private StatCategory statCategoryFilter; // 표시할 스텟 카테고리 필터
+    [SerializeField] private eStatCategory statCategoryFilter; // 표시할 스텟 카테고리 필터
 
     // 생성된 프리팹들을 추적하기 위한 딕셔너리
-    private Dictionary<StatType, UI_StatItem> spawnedItems = new Dictionary<StatType, UI_StatItem>();
+    private Dictionary<eStatType, UI_StatItem> spawnedItems = new Dictionary<eStatType, UI_StatItem>();
     private bool isInitialized = false;
     private bool isWindowInitialized = false;
 
@@ -48,7 +48,7 @@ public class UI_StatWindow : MonoBehaviour
     {
         if (isWindowInitialized) return; // 이미 초기화된 경우 중복 실행 방지
 
-        for (StatType type = (StatType)1; type < StatType.MAX_COUNT; type++)
+        for (eStatType type = (eStatType)1; type < eStatType.MAX_COUNT; type++)
         {
             StatData data = DataManager.Instance.GetStat(type);
             if(data == null) continue;
@@ -70,7 +70,7 @@ public class UI_StatWindow : MonoBehaviour
     {
         InitializeWindow();
 
-        for (StatType type = (StatType)1; type < StatType.MAX_COUNT; type++)
+        for (eStatType type = (eStatType)1; type < eStatType.MAX_COUNT; type++)
         {
             if (spawnedItems.TryGetValue(type, out UI_StatItem uiItem))
             {
@@ -88,7 +88,7 @@ public class UI_StatWindow : MonoBehaviour
     }
 
     // 이벤트가 발생하면 자동으로 실행되는 콜백 함수
-    private void HandleStatChanged(StatType type, int newValue)
+    private void HandleStatChanged(eStatType type, int newValue)
     {
         // UI가 비활성화되어 있으면 이벤트만 내부 상태에 반영하고
         // 다시 활성화될 때 SyncStats()로 동기화

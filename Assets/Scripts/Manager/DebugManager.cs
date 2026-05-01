@@ -54,7 +54,7 @@ public class DebugManager : Singleton<DebugManager>
     }
 
     [ConsoleMethod("add_stat", "특정 스탯 값을 강제로 증가시킵니다.")]
-    public static void Cheat_AddStat(StatType type, int amount = 1)
+    public static void Cheat_AddStat(eStatType type, int amount = 1)
     {
         if (PlayerStatManager.Instance != null)
         {
@@ -64,7 +64,7 @@ public class DebugManager : Singleton<DebugManager>
     }
 
         [ConsoleMethod("set_stat", "특정 스탯 값을 강제로 설정합니다.")]
-    public static void Cheat_SetStat(StatType type, int amount = 1)
+    public static void Cheat_SetStat(eStatType type, int amount = 1)
     {
         if (PlayerStatManager.Instance != null)
         {

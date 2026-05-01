@@ -17,24 +17,17 @@ public class MonsterItemDrop
 }
 
 [CreateAssetMenu(fileName = "NewMonsterData", menuName = "ScriptableObjects/MonsterData", order = 1)]
-public class MonsterData : ScriptableObject, IGameData
+public class MonsterData : ScriptableObject
 {
-    public int MonsterID;
-    public string Name;
-
-    public int ID         => MonsterID;
-    public int TypeHeader => GameDataID.GetHeader(MonsterID);
-    public int Number     => GameDataID.GetNumber(MonsterID);
-    public void SetID(int id) => MonsterID = id;
-    public string Name_KR;
+    public BaseData Base;
     [TextArea]
     public string Description;
     public int HP;
     public int MP;
     public int Damage;
     public List<string> Skills = new List<string>();
-    public List<MonsterSoulDrop> DropSoul = new List<MonsterSoulDrop>();
-    public List<MonsterItemDrop> DropItems = new List<MonsterItemDrop>();
+    public List<ReferenceData> DropSoul = new List<ReferenceData>();
+    public List<ReferenceData> DropItems = new List<ReferenceData>();
     public int ObjectID;
     public int SpriteID;
 }

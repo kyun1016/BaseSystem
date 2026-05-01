@@ -104,7 +104,7 @@ public class InventoryManager : Singleton<InventoryManager>
             return false;
         }
 
-        if(itemData.ItemType != ItemType.Consumable)
+        if(itemData.ItemType != eItemType.Consumable)
         {
             Debug.LogWarning($"아이템 {itemData.Name_KR}은(는) 사용 불가능한 타입입니다.");
             return false;

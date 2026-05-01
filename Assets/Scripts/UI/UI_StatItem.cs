@@ -9,7 +9,7 @@ public class UI_StatItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI valueText;
     [SerializeField] private Slider statSlider; // 게이지 바
 
-    public StatType TargetStat { get; private set; }
+    public eStatType TargetStat { get; private set; }
 
     // 처음 생성될 때 한 번 세팅
     public void Initialize(StatData data, int currentValue)

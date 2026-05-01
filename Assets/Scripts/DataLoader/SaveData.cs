@@ -6,5 +6,5 @@ public class SaveData
 {
     public int currentTurn;
     public List<int> inventory = new List<int>();
-    public Dictionary<StatType, int> currentStats = new Dictionary<StatType, int>();
+    public Dictionary<eStatType, int> currentStats = new Dictionary<eStatType, int>();
 }

@@ -7,6 +7,7 @@ public class DataManager : Singleton<DataManager>
 {
     private const bool AutoDumpIdNameMapOnInit = true;
 
+    private readonly Dictionary<int, BaseData> baseDict = new Dictionary<int, BaseData>();
     private readonly Dictionary<int, ItemData> itemDict = new Dictionary<int, ItemData>();
     private readonly Dictionary<string, int> itemNameToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<int, string> itemIdToName = new Dictionary<int, string>();
@@ -17,6 +18,8 @@ public class DataManager : Singleton<DataManager>
 
     public void Init()
     {
+        baseDict.Clear();
+
         itemDict.Clear();
         itemNameToId.Clear();
         itemIdToName.Clear();
@@ -28,15 +31,16 @@ public class DataManager : Singleton<DataManager>
         ItemData[] items = Resources.LoadAll<ItemData>("ItemData");
         foreach (var item in items)
         {
-            itemDict[item.ID] = item;
-            RegisterNameIdMap(item.ID, item.Name, itemIdToName, itemNameToId, "Item");
+            itemDict[item.Base.Key] = item;
+            baseDict[item.Base.Key] = item.Base;
+            RegisterNameIdMap(item.Base.Key, item.Base.Name.EN, itemIdToName, itemNameToId, "Item");
         }
 
         StatData[] stats = Resources.LoadAll<StatData>("StatData");
         foreach (var stat in stats)
         {
-            statDict[stat.ID] = stat;
-            RegisterNameIdMap(stat.ID, stat.Name, statIdToName, statNameToId, "Stat");
+            statDict[stat.Base.Key] = stat;
+            RegisterNameIdMap(stat.Base.Key, stat.Base.Name.EN, statIdToName, statNameToId, "Stat");
         }
 
         Debug.Log($"<color=cyan>[DataManager] 데이터 로드 완료: 아이템 {itemDict.Count}개, 스탯 {statDict.Count}개</color>");
@@ -63,7 +67,7 @@ public class DataManager : Singleton<DataManager>
         return itemIdToName.TryGetValue(id, out name);
     }
 
-    public StatData GetStat(StatType type) {return statDict.TryGetValue((int)type + GameDataHeaders.Stat, out var data) ? data : null;}
+    public StatData GetStat(eStatType type) {return statDict.TryGetValue((int)type + GameDataHeaders.Stat, out var data) ? data : null;}
     public StatData GetStat(int id) {return statDict.TryGetValue(id, out var data) ? data : null;}
     public StatData GetStat(string nameKey)
     {
