@@ -190,6 +190,11 @@ public class GameDataParser : EditorWindow
             int fieldIndex = 0;
             for (int j = 0; j < columns.Length; j++)
             {
+                if (fieldIndex >= fields.Length)
+                {
+                    Debug.LogWarning($"[ID:{id}] CSV 열이 클래스 필드 수보다 많습니다. 초과된 열은 무시됩니다. (열 인덱스: {j})");
+                    continue;
+                }
                 FieldInfo field = fields[fieldIndex++];
                 string csvValue = columns[j];
                 Type fieldType = field.FieldType;
@@ -413,14 +418,17 @@ public class GameDataParser : EditorWindow
         foreach (string entry in data.Split(';'))
         {
             string[] split = entry.Split(':');
-            if (split.Length != 2)
+            if (split.Length != 2){
+                Debug.LogWarning($"잘못된 참조 데이터 형식: '{entry}' (올바른 형식: 'Name:Value')");
                 continue;
+            }
 
-            if (!int.TryParse(split[1], out int weight))
+            if (!int.TryParse(split[1], out int value))
+            {
+                Debug.LogWarning($"참조 데이터의 값이 정수가 아닙니다: '{split[1]}' (올바른 형식: 'Name:Value'에서 Value는 정수여야 합니다)");
                 continue;
-
+            }
             string name = $"{type}_{split[0].Trim()}";
-            int value = int.Parse(split[1]);
 
             int key = NameToKey.TryGetValue(name, out int cachedKey) ? cachedKey : -1;
             if (key == -1)

@@ -1,13 +1,13 @@
-﻿ID,Name,Name_KR,Description,HP,MP,Damage,Skills,DropSoul (SoulID:Weight),DropItems (ItemID:Weight:Count),ObjectID,SpriteID
-01,Goblin,고블린,Test1,100,10,20,skill_001;skill_002,soul_0001:1,item_001:5:2;item_002:5:3,ob_0001,sp_0001
-02,Hat,고블린 궁수,Test2,,,,,soul_0002:1,,ob_0002,sp_0002
-03,Tiara,노움,Test3,,,,,,,ob_0003,sp_0003
-04,FlyPin,레이스,Test4,,,,,,,ob_0004,sp_0004
-05,Apple,슬라임,Test5,,,,,,,ob_0005,sp_0005
-06,,칼날늑대,,,,,,,,ob_0006,sp_0006
-07,,위치스램프,,,,,,,,ob_0007,sp_0007
-08,,,,,,,,,,ob_0008,sp_0008
-09,,,,,,,,,,ob_0009,sp_0009
+﻿ID,Name,Name_KR,Description,HP,MP,Damage,Skills,DropSoul [Soul],DropItems [Item],ObjectID,SpriteID
+1,Goblin,고블린,Test1,100,10,20,skill_001;skill_002,soul_0001:1,item_001:5:2;item_002:5:3,ob_0001,sp_0001
+2,Hat,고블린 궁수,Test2,,,,,soul_0002:1,,ob_0002,sp_0002
+3,Tiara,노움,Test3,,,,,,,ob_0003,sp_0003
+4,FlyPin,레이스,Test4,,,,,,,ob_0004,sp_0004
+5,Apple,슬라임,Test5,,,,,,,ob_0005,sp_0005
+6,,칼날늑대,,,,,,,,ob_0006,sp_0006
+7,,위치스램프,,,,,,,,ob_0007,sp_0007
+8,,,,,,,,,,ob_0008,sp_0008
+9,,,,,,,,,,ob_0009,sp_0009
 10,,,,,,,,,,ob_0010,sp_0010
 11,,,,,,,,,,ob_0011,sp_0011
 12,,,,,,,,,,ob_0012,sp_0012
