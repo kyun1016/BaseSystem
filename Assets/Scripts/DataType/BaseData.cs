@@ -22,6 +22,8 @@ public enum eLanguage
     EN,
     // 추가 언어...
 }
+
+[System.Serializable]
 public struct LocalizedString
 {
     public string KR;
@@ -72,11 +74,15 @@ public class BaseData
 public struct ReferenceData
 {
     public int Key;
+    public string KeyName;
+    public string Name;
     public int Value;
 
-    public ReferenceData(int key, int value)
+    public ReferenceData(int key, string keyName, string name, int value)
     {
         Key = key;
+        KeyName = keyName;
+        Name = name;
         Value = value;
     }
 }

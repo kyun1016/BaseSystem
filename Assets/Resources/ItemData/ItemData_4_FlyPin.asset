@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbcb62046b0cf0a4bae12cb7b7651d1c, type: 3}
+  m_Name: ItemData_4_FlyPin
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  Base:
+    ID: 4
+    Header: 2
+    Key: 200000004
+    Name:
+      KR: "\uB098\uBE44\uC7A5\uC2DD"
+      EN: FlyPin
+  Description:
+    KR: Test4
+    EN: Test4
+  ItemType: 1
+  BuyPrice: 4000
+  SellPrice: 400
+  EffectStats:
+  - Key: 100000003
+    KeyName: Stat_Intelligence
+    Name: Intelligence
+    Value: 1
+  - Key: 100000008
+    KeyName: Stat_Karma
+    Name: Karma
+    Value: 2
+  IsHidden: 1
+  IconPath: 

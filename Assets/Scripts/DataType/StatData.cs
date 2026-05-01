@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class StatData : ScriptableObject
 {
     public BaseData Base;
-    [TextArea] 
     public LocalizedString Description;
+    public eStatType Type;
     public eStatCategory StatCategory;
     public int MinValue;
     public int MaxValue;

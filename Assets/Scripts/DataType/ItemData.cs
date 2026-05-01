@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class ItemData : ScriptableObject
 {
     public BaseData Base;
-    [TextArea] 
     public LocalizedString Description;
     public eItemType ItemType;
     public int BuyPrice;

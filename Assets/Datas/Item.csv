@@ -1,6 +1,6 @@
 ﻿ID,Name_EN,Name_KR,Description_KR,Description_KR,ItemType,BuyPrice,SellPrice,EffectStats [Stat],IsHidden,IconPath
 1,HairPin,머리핀,Test1,Test1,Equip_Helmet,1000,100,Stamina:1;Ethics:2,,
 2,Hat,모자,Test2,Test2,Equip_Helmet,2000,200,Faith:1;Ethics:2,,
-3,Tiara,티아라,Test3,Test3,Equip_Helmet,3000,300,stat_1:1;stat_2:2,,
+3,Tiara,티아라,Test3,Test3,Equip_Helmet,3000,300,Faith:1;Ethics:2,,
 4,FlyPin,나비장식,Test4,Test4,Equip_Helmet,4000,400,Intelligence:1;Karma:2,1,
 5,Apple,사과,Test5,Test5,Consumable,5000,500,Elegance:1;Stress:2,,

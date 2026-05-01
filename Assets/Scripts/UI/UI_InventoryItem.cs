@@ -24,9 +24,9 @@ public class UI_InventoryItem : MonoBehaviour
     // 풀에서 꺼내져 처음 화면에 세팅될 때 호출
     public void Initialize(ItemData data, int slotIndex)
     {
-        currentItemID = data.ID;
+        currentItemID = data.Base.ID;
         index = slotIndex;
-        nameText.text = data.Name_KR;
+        nameText.text = data.Base.Name.KR;
         sellPriceText.text = data.SellPrice.ToString();
         effect1Text.text = BuildEffectText(data, 0);
         effect2Text.text = BuildEffectText(data, 1);
@@ -45,10 +45,10 @@ public class UI_InventoryItem : MonoBehaviour
 
         string statName = null;
         if (DataManager.Instance != null)
-            DataManager.Instance.TryGetStatName(effect.StatID, out statName);
+            DataManager.Instance.TryGetStatName(effect.Key, out statName);
 
         if (string.IsNullOrWhiteSpace(statName))
-            statName = effect.StatID.ToString();
+            statName = effect.Key.ToString();
 
         if (effect.Value > 0)
             return statName + "+" + effect.Value.ToString();

@@ -9,7 +9,7 @@ using System.Text;
 public class GameDataParser : EditorWindow
 {
     private const string GeneratedMapFolder = "Assets/Datas/_Generated";
-    private static readonly Dictionary<string, int> NameToKey = new();
+    private static readonly Dictionary<string, int> NameToKey = new(StringComparer.OrdinalIgnoreCase);
     private static readonly Dictionary<int, string> KeyToName = new();
 
     // =======================================================
@@ -87,7 +87,7 @@ public class GameDataParser : EditorWindow
             return;
         }
         MethodInfo genericParseMethod = parseMethod.MakeGenericMethod(dataType);
-        genericParseMethod.Invoke(null, new object[] { csvPath, savePath });
+        genericParseMethod.Invoke(null, new object[] { dataName });
     }
 
     private static Type ResolveType(string typeName)
@@ -187,9 +187,10 @@ public class GameDataParser : EditorWindow
 
             //==========================================================
             // Step 2. 리플렉션 자동 매핑 (기본 자료형 및 Enum)
-            for(int j=0; j<fields.Length; j++)
+            int fieldIndex = 0;
+            for (int j = 0; j < columns.Length; j++)
             {
-                FieldInfo field = fields[j];
+                FieldInfo field = fields[fieldIndex++];
                 string csvValue = columns[j];
                 Type fieldType = field.FieldType;
                 try
@@ -221,7 +222,18 @@ public class GameDataParser : EditorWindow
                         field.SetValue(assetData, data);
                     }
                     else if (fieldType == typeof(List<string>)) field.SetValue(assetData, ParseStringList(csvValue));
-                    else if (fieldType == typeof(List<ReferenceData>)) field.SetValue(assetData, ParseReferenceList(dataName, csvValue));
+                    else if (fieldType == typeof(List<ReferenceData>))
+                    {
+                        string header = rows[0][j].Trim();
+                        int bracketOpen = header.IndexOf('[');
+                        int bracketClose = header.IndexOf(']');
+                        if( (bracketOpen < 0 || bracketClose <= bracketOpen)) // [Type] 명세 또는 "Name:Value;Name:Value" 형식 감지
+                        {
+                            Debug.LogError($"필드 '{field.Name}'의 헤더 형식이 잘못되었습니다. 'FieldName [Type]' 형식으로 수정하세요. (현재: '{header}')");
+                        }
+                        string type = header.Substring(bracketOpen + 1, bracketClose - bracketOpen - 1).Trim();
+                        field.SetValue(assetData, ParseReferenceList(type, csvValue));
+                    }
                 }
                 catch (Exception e)
                 {
@@ -420,6 +432,8 @@ public class GameDataParser : EditorWindow
             list.Add(new ReferenceData
             {
                 Key = key,
+                KeyName = name,
+                Name = split[0].Trim(),
                 Value = value
             });
         }
