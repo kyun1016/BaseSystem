@@ -9,6 +9,8 @@ using System.Text;
 public class GameDataParser : EditorWindow
 {
     private const string GeneratedMapFolder = "Assets/Datas/_Generated";
+    private static readonly Dictionary<string, int> NameToKey = new();
+    private static readonly Dictionary<int, string> KeyToName = new();
 
     // =======================================================
     // 파싱 설정
@@ -16,16 +18,55 @@ public class GameDataParser : EditorWindow
         [MenuItem("Tools/Data Parse/Parse All CSV")]
     public static void ParseAllCSV()
     {
-        ResetAliasCaches();
+        {       
+            ResetMapCaches();
+            foreach (string dataName in DataNames)
+            {
+                ParseMapByDataName(dataName);
+            }
+            ExportKeyNameMap();
+        }
 
         foreach (string dataName in DataNames)
         {
             ParseByDataName(dataName);
         }
 
-        ExportAliasMapTables();
+        
     }
 
+    private static void ParseMapByDataName(string dataName)
+    {
+        string typeName = $"{dataName}Data";
+        string csvPath = $"Assets/Datas/{dataName}.csv";
+        string savePath = $"Assets/Resources/{dataName}Data";
+
+        TextAsset csvData = AssetDatabase.LoadAssetAtPath<TextAsset>(csvPath);
+        if (csvData == null)
+        {
+            Debug.LogError($"<color=red><b>CSV 파일을 찾을 수 없습니다: {csvPath}</b></color>");
+            return;
+        }
+
+        List<string[]> rows = ReadCSV(csvData.text);
+        if (rows.Count <= 1)
+        {
+            Debug.LogWarning($"<color=yellow><b>CSV 파일에 데이터가 없습니다: {csvPath}</b></color>");
+            return;
+        }
+
+        for (int i = 1; i < rows.Count; i++)
+        {
+            string[] columns = rows[i];
+            string id = columns[0];
+            string name = $"{dataName}_{columns[1]}";
+
+            int key = int.Parse(id) + (int)(eHeader)Enum.Parse(typeof(eHeader), dataName, true) * BaseData.HEADER_SIZE;
+            string trimmed = name.Trim();
+            NameToKey[trimmed] = key;
+            KeyToName[key] = trimmed;
+        }
+    }
     private static void ParseByDataName(string dataName)
     {
         string typeName = $"{dataName}Data";
@@ -89,119 +130,50 @@ public class GameDataParser : EditorWindow
         return null;
     }
 
-
-    // =======================================================`
-    // ID 필드 설정 (접두사 + 헤더)
-
-    private static readonly Dictionary<string, (string Prefix, int Header)> IdFieldConfigs = new()
-    {
-        { "MonsterID", ("mon", GameDataHeaders.Monster) },
-        { "ObjectID", ("ob", GameDataHeaders.Object) },
-        { "SpriteID", ("sp", GameDataHeaders.Sprite) },
-        { "ItemID", ("item", GameDataHeaders.Item) },
-        { "StatID", ("stat", GameDataHeaders.Stat) },
-    };
-
-    private struct AliasRecord
-    {
-        public string DataType;
-        public string Prefix;
-        public int PackedId;
-        public string NameKey;
-    }
-
-    private static readonly Dictionary<int, Dictionary<string, int>> AliasToIdByHeader = new();
-    private static readonly Dictionary<int, Dictionary<int, string>> IdToAliasByHeader = new();
-    private static readonly List<AliasRecord> AliasRecords = new();
-
     // =======================================================
     // 핵심 파싱 엔진
     // =======================================================
-    private static void ParseData<T>(string csvFilePath, string savePath) where T : ScriptableObject
+    private static void ParseData<T>(string dataName) where T : ScriptableObject
     {
         //==========================================================
         // Part 1. 전처리
         Debug.Log($"<color=cyan><b>[{typeof(T).Name}] CSV 파싱 시작...</b></color>");
+        Debug.Log($"<color=cyan><b>[{dataName}] CSV 파싱 시작...</b></color>");
+        string csvPath = $"Assets/Datas/{dataName}.csv";
+        string savePath = $"Assets/Resources/{dataName}Data";
         
-        TextAsset csvData = AssetDatabase.LoadAssetAtPath<TextAsset>(csvFilePath);
+        TextAsset csvData = AssetDatabase.LoadAssetAtPath<TextAsset>(csvPath);
         if (csvData == null)
         {
-            Debug.LogError($"<color=red><b>CSV 파일을 찾을 수 없습니다: {csvFilePath}</b></color>");
+            Debug.LogError($"<color=red><b>CSV 파일을 찾을 수 없습니다: {csvPath}</b></color>");
             return;
         }
 
         // 저장 폴더 자동 생성 로직 개선 (중첩 폴더 지원)
         CreateFolderRecursive(savePath);
 
-        // string[] rows = csvData.text.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
         List<string[]> rows = ReadCSV(csvData.text);
         if (rows.Count <= 1)
         {
-            Debug.LogWarning($"<color=yellow><b>CSV 파일에 데이터가 없습니다: {csvFilePath}</b></color>");
+            Debug.LogWarning($"<color=yellow><b>CSV 파일에 데이터가 없습니다: {csvPath}</b></color>");
             return;
         }
 
         //==========================================================
         // Part 2. 헤더 매핑 및 리플렉션 준비
-        Dictionary<string, int> columnIndex = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        string[] headers = rows[0];
-        for (int i = 0; i < headers.Length; i++)
-        {
-            string headerName = headers[i].Trim();
-            if (!string.IsNullOrEmpty(headerName) && !columnIndex.ContainsKey(headerName))
-                columnIndex.Add(headerName, i);
-
-            // "DropSoul (SoulID:Weight)" 같은 주석형 헤더를 필드명("DropSoul")으로도 조회 가능하게 만든다.
-            int bracketIndex = headerName.IndexOf('(');
-            if (bracketIndex > 0)
-            {
-                string alias = headerName.Substring(0, bracketIndex).Trim();
-                if (!string.IsNullOrEmpty(alias) && !columnIndex.ContainsKey(alias))
-                    columnIndex.Add(alias, i);
-            }
-        }
-
+        FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        HashSet<string> validAssetPaths = new HashSet<string>();
+        int count = 0;
         //==========================================================
         // Part 3. 리플렉션 및 데이터 바인딩
-        FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
-        int count = 0;
-        HashSet<string> validAssetPaths = new HashSet<string>();
-        var idFields = new List<(string Name, string Prefix, int Header)>();
-        foreach (var entry in IdFieldConfigs)
-            if (columnIndex.ContainsKey(entry.Key))
-                idFields.Add((entry.Key, entry.Value.Prefix, entry.Value.Header));
-
-        if (idFields.Count == 0)
-        {
-            Debug.LogWarning($"[{typeof(T).Name}] ID 컬럼이 없어 파싱을 건너뜁니다.");
-            return;
-        }
-
         for (int i = 1; i < rows.Count; i++)
         {
             string[] columns = rows[i];
+            string id = columns[0];
+            string name = columns[1];
 
-            //==========================================================
-            // Step 1. 공통 식별자 (ID, Name) 추출 - 첫 번째 ID 필드를 Primary ID로 사용
-            var (primaryFieldName, primaryPrefix, primaryHeader) = idFields[0];
-            string idStr = GetColumnValue(columns, columnIndex, primaryFieldName);
-            string nameStr = GetColumnValue(columns, columnIndex, "Name");
-
-            if (!TryParseFixedPrefixId(idStr, primaryPrefix, primaryHeader, out int id))
-            {
-                if (!string.IsNullOrWhiteSpace(idStr))
-                    Debug.LogWarning($"[Row:{i}] {primaryFieldName} 형식 오류: {idStr}");
-                continue;
-            }
-
-            if (string.IsNullOrEmpty(nameStr))
-                nameStr = "NoName";
-
-            RegisterAlias(primaryHeader, id, nameStr, typeof(T).Name, primaryPrefix);
-
-            string fullPath = $"{savePath}/{typeof(T).Name}_{id}_{nameStr}.asset";
+            string fullPath = $"{savePath}/{typeof(T).Name}_{id}_{name}.asset";
             validAssetPaths.Add(fullPath);
-
             T assetData = AssetDatabase.LoadAssetAtPath<T>(fullPath);
             bool isNew = false;
             
@@ -210,17 +182,15 @@ public class GameDataParser : EditorWindow
                 assetData = ScriptableObject.CreateInstance<T>();
                 isNew = true;
             }
-
             // 기존 에셋 GUID는 유지하되, 이전 파싱 값이 남지 않도록 필드를 기본값으로 초기화
             ResetAssetFields(assetData, fields);
 
             //==========================================================
             // Step 2. 리플렉션 자동 매핑 (기본 자료형 및 Enum)
-            foreach (FieldInfo field in fields)
+            for(int j=0; j<fields.Length; j++)
             {
-                string csvValue = GetColumnValue(columns, columnIndex, field.Name);
-                if (string.IsNullOrEmpty(csvValue)) continue;
-
+                FieldInfo field = fields[j];
+                string csvValue = columns[j];
                 Type fieldType = field.FieldType;
                 try
                 {
@@ -231,26 +201,32 @@ public class GameDataParser : EditorWindow
                     else if (fieldType == typeof(bool)) field.SetValue(assetData, (csvValue == "1" || csvValue.ToLower() == "true" || csvValue.ToLower() == "t"));
                     else if (fieldType.IsEnum && Enum.TryParse(fieldType, csvValue, true, out object enumVal)) field.SetValue(assetData, enumVal);
                     // 2. 특수 자료형
+                    else if (fieldType == typeof(LocalizedString))
+                    {
+                        LocalizedString locStr = new LocalizedString
+                        {
+                            EN = csvValue,
+                            KR = columns[++j],
+                            // 추가 언어는 여기서 확장...
+                        };
+                        field.SetValue(assetData, locStr);
+                    }
+                    else if (fieldType == typeof(BaseData)) {
+                        LocalizedString locStr = new LocalizedString {
+                                EN = columns[++j],
+                                KR = columns[++j],
+                                // 추가 언어는 여기서 확장...
+                        };
+                        BaseData data = new BaseData(int.Parse(csvValue), (eHeader)Enum.Parse(typeof(eHeader), dataName, true), locStr);
+                        field.SetValue(assetData, data);
+                    }
                     else if (fieldType == typeof(List<string>)) field.SetValue(assetData, ParseStringList(csvValue));
-                    else if (fieldType == typeof(List<ItemEffect>)) field.SetValue(assetData, ParseEffects(csvValue));
-                    else if (fieldType == typeof(List<MonsterSoulDrop>)) field.SetValue(assetData, ParseMonsterSoulDrops(csvValue));
-                    else if (fieldType == typeof(List<MonsterItemDrop>)) field.SetValue(assetData, ParseMonsterItemDrops(csvValue));
+                    else if (fieldType == typeof(List<ReferenceData>)) field.SetValue(assetData, ParseReferenceList(dataName, csvValue));
                 }
                 catch (Exception e)
                 {
                     Debug.LogWarning($"[ID:{id}] {field.Name} 파싱 오류: {e.Message}");
                 }
-            }
-
-            // Step 2-1. 모든 ID 필드 파싱 및 설정
-
-            foreach (var (fieldName, prefix, header) in idFields)
-            {
-                string value = GetColumnValue(columns, columnIndex, fieldName);
-                if (TryParseIdOrAlias(value, prefix, header, out int packed))
-                    typeof(T).GetField(fieldName)?.SetValue(assetData, packed);
-                else if (!string.IsNullOrWhiteSpace(value))
-                    Debug.LogWarning($"[Row:{i}] {fieldName} 해석 실패: {value} (허용: {prefix}_001 또는 Name Key)");
             }
 
             if (isNew) AssetDatabase.CreateAsset(assetData, fullPath);
@@ -339,66 +315,6 @@ public class GameDataParser : EditorWindow
         return rows;
     }
 
-    private static string GetColumnValue(string[] columns, Dictionary<string, int> columnIndexMap, string columnName)
-    {
-        if (columnIndexMap.TryGetValue(columnName, out int index) && index < columns.Length)
-            return columns[index].Trim();
-        return string.Empty;
-    }
-
-    private static bool TryParseFixedPrefixId(string rawValue, string prefix, int header, out int internalId)
-    {
-        internalId = 0;
-
-        if (string.IsNullOrWhiteSpace(rawValue))
-            return false;
-
-        string value = rawValue.Trim();
-        string expectedPrefix = prefix + "_";
-        if (!value.StartsWith(expectedPrefix, StringComparison.OrdinalIgnoreCase))
-            return false;
-
-        string numberPart = value.Substring(expectedPrefix.Length);
-        if (numberPart.Length == 0)
-            return false;
-
-        for (int i = 0; i < numberPart.Length; i++)
-        {
-            if (!char.IsDigit(numberPart[i]))
-                return false;
-        }
-
-        if (!int.TryParse(numberPart, out int number))
-            return false;
-
-        internalId = BuildPackedId(header, number);
-        return true;
-    }
-
-    private static bool TryParseIdOrAlias(string rawValue, string prefix, int header, out int packedId)
-    {
-        packedId = 0;
-        if (string.IsNullOrWhiteSpace(rawValue))
-            return false;
-
-        if (TryParseFixedPrefixId(rawValue, prefix, header, out packedId))
-            return true;
-
-        string alias = rawValue.Trim();
-        if (AliasToIdByHeader.TryGetValue(header, out var aliasMap) && aliasMap.TryGetValue(alias, out packedId))
-            return true;
-
-        return false;
-    }
-
-    private static int BuildPackedId(int header, int number)
-    {
-        if (number < 0 || number > 0x00FFFFFF)
-            return 0;
-
-        return (header << 24) | number;
-    }
-
     private static void CreateFolderRecursive(string path)
     {
         string[] folders = path.Split('/');
@@ -445,126 +361,26 @@ public class GameDataParser : EditorWindow
     // =======================================================
     // 커스텀 리스트 파서
     // =======================================================
-    private static List<ItemEffect> ParseEffects(string data)
+    private static void ResetMapCaches()
     {
-        List<ItemEffect> list = new List<ItemEffect>();
-        foreach (string eff in data.Split(new[] { ';', '|' }, StringSplitOptions.RemoveEmptyEntries))
-        {
-            string[] split = eff.Split(':');
-            if (split.Length != 2)
-                continue;
-
-            string statToken = split[0].Trim();
-            if (!int.TryParse(split[1], out int val))
-                continue;
-
-            if (TryResolveStatId(statToken, out int statId))
-                list.Add(new ItemEffect { StatID = statId, Value = val });
-            else
-                Debug.LogWarning($"EffectStats StatID 해석 실패: {statToken} (허용: stat_001, StatData Name Key)");
-        }
-        return list;
+        NameToKey.Clear();
+        KeyToName.Clear();
     }
 
-    private static bool TryResolveStatId(string token, out int statId)
-    {
-        statId = 0;
-        if (string.IsNullOrWhiteSpace(token))
-            return false;
-
-        return TryParseIdOrAlias(token, "stat", GameDataHeaders.Stat, out statId);
-    }
-
-    private static void RegisterAlias(int header, int packedId, string nameKey, string dataType, string prefix)
-    {
-        if (string.IsNullOrWhiteSpace(nameKey))
-            return;
-
-        string trimmed = nameKey.Trim();
-
-        if (!AliasToIdByHeader.TryGetValue(header, out var aliasToId))
-        {
-            aliasToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-            AliasToIdByHeader.Add(header, aliasToId);
-        }
-
-        if (!IdToAliasByHeader.TryGetValue(header, out var idToAlias))
-        {
-            idToAlias = new Dictionary<int, string>();
-            IdToAliasByHeader.Add(header, idToAlias);
-        }
-
-        aliasToId[trimmed] = packedId;
-        idToAlias[packedId] = trimmed;
-
-        for (int i = 0; i < AliasRecords.Count; i++)
-        {
-            if (AliasRecords[i].PackedId == packedId)
-                return;
-        }
-
-        AliasRecords.Add(new AliasRecord
-        {
-            DataType = dataType,
-            Prefix = prefix,
-            PackedId = packedId,
-            NameKey = trimmed
-        });
-    }
-
-    private static void ResetAliasCaches()
-    {
-        AliasToIdByHeader.Clear();
-        IdToAliasByHeader.Clear();
-        AliasRecords.Clear();
-    }
-
-    private static void ExportAliasMapTables()
+    private static void ExportKeyNameMap()
     {
         CreateFolderRecursive(GeneratedMapFolder);
         string generatedDiskFolder = Path.Combine(Application.dataPath, "Datas/_Generated");
 
         StringBuilder all = new StringBuilder();
-        all.AppendLine("DataType,Prefix,PackedID,Header,Number,NameKey");
+        all.AppendLine("Key,Name");
+        foreach (var pair in KeyToName)
+            all.AppendLine($"{pair.Key},{pair.Value}");
 
-        StringBuilder item = new StringBuilder();
-        item.AppendLine("PackedID,Number,NameKey");
-
-        StringBuilder stat = new StringBuilder();
-        stat.AppendLine("PackedID,Number,NameKey");
-
-        for (int i = 0; i < AliasRecords.Count; i++)
-        {
-            var r = AliasRecords[i];
-            int header = GameDataID.GetHeader(r.PackedId);
-            int number = GameDataID.GetNumber(r.PackedId);
-            string escapedName = EscapeCsv(r.NameKey);
-
-            all.AppendLine($"{r.DataType},{r.Prefix},{r.PackedId},{header},{number},{escapedName}");
-
-            if (string.Equals(r.DataType, nameof(ItemData), StringComparison.Ordinal))
-                item.AppendLine($"{r.PackedId},{number},{escapedName}");
-            else if (string.Equals(r.DataType, nameof(StatData), StringComparison.Ordinal))
-                stat.AppendLine($"{r.PackedId},{number},{escapedName}");
-        }
-
-        File.WriteAllText(Path.Combine(generatedDiskFolder, "ID_Name_Map_All.csv"), all.ToString(), Encoding.UTF8);
-        File.WriteAllText(Path.Combine(generatedDiskFolder, "ID_Name_Map_Item.csv"), item.ToString(), Encoding.UTF8);
-        File.WriteAllText(Path.Combine(generatedDiskFolder, "ID_Name_Map_Stat.csv"), stat.ToString(), Encoding.UTF8);
+        File.WriteAllText(Path.Combine(generatedDiskFolder, "Key_Name_Map.csv"), all.ToString(), Encoding.UTF8);
 
         AssetDatabase.Refresh();
-        Debug.Log($"<color=cyan><b>ID/Name 매핑 테이블 출력 완료: {GeneratedMapFolder}</b></color>");
-    }
-
-    private static string EscapeCsv(string value)
-    {
-        if (value == null)
-            return string.Empty;
-
-        if (value.Contains(",") || value.Contains("\"") || value.Contains("\n") || value.Contains("\r"))
-            return "\"" + value.Replace("\"", "\"\"") + "\"";
-
-        return value;
+        Debug.Log($"<color=cyan><b>ID/Name 매핑 테이블 출력 완료: {GeneratedMapFolder} ({KeyToName.Count}개)</b></color>");
     }
 
     private static List<string> ParseStringList(string data)
@@ -579,67 +395,32 @@ public class GameDataParser : EditorWindow
         return list;
     }
 
-    private static List<MonsterSoulDrop> ParseMonsterSoulDrops(string data)
+    private static List<ReferenceData> ParseReferenceList(string type, string data)
     {
-        List<MonsterSoulDrop> list = new List<MonsterSoulDrop>();
+        List<ReferenceData> list = new List<ReferenceData>();
         foreach (string entry in data.Split(';'))
         {
-            string value = entry.Trim();
-            if (string.IsNullOrEmpty(value))
-                continue;
-
-            string[] split = value.Split(':');
+            string[] split = entry.Split(':');
             if (split.Length != 2)
                 continue;
 
             if (!int.TryParse(split[1], out int weight))
                 continue;
 
-            string soulId = split[0].Trim();
-            if (!TryParseIdOrAlias(soulId, "soul", GameDataHeaders.Soul, out int soulId_packed))
+            string name = $"{type}_{split[0].Trim()}";
+            int value = int.Parse(split[1]);
+
+            int key = NameToKey.TryGetValue(name, out int cachedKey) ? cachedKey : -1;
+            if (key == -1)
             {
-                Debug.LogWarning($"DropSoul ID 형식 오류 (예: soul_0001 또는 Name Key): {soulId}");
+                Debug.LogWarning($"참조 이름을 찾을 수 없습니다: {name}");
                 continue;
             }
 
-            list.Add(new MonsterSoulDrop
+            list.Add(new ReferenceData
             {
-                SoulID = soulId_packed,
-                Weight = weight
-            });
-        }
-
-        return list;
-    }
-
-    private static List<MonsterItemDrop> ParseMonsterItemDrops(string data)
-    {
-        List<MonsterItemDrop> list = new List<MonsterItemDrop>();
-        foreach (string entry in data.Split(';'))
-        {
-            string value = entry.Trim();
-            if (string.IsNullOrEmpty(value))
-                continue;
-
-            string[] split = value.Split(':');
-            if (split.Length != 3)
-                continue;
-
-            if (!int.TryParse(split[1], out int weight) || !int.TryParse(split[2], out int count))
-                continue;
-
-            string itemId = split[0].Trim();
-            if (!TryParseIdOrAlias(itemId, "item", GameDataHeaders.Item, out int itemId_packed))
-            {
-                Debug.LogWarning($"DropItems ID 형식 오류 (예: item_0001 또는 Name Key): {itemId}");
-                continue;
-            }
-
-            list.Add(new MonsterItemDrop
-            {
-                ItemID = itemId_packed,
-                Weight = weight,
-                Count = count
+                Key = key,
+                Value = value
             });
         }
 

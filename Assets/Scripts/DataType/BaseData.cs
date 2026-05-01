@@ -33,7 +33,7 @@ public struct LocalizedString
 public class BaseData
 {
     // Const
-    private const int HEADER_SIZE = 100_000_000;
+    static public int HEADER_SIZE = 100_000_000;
 
     // member variables
     public int ID;
