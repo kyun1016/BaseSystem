@@ -1,4 +1,4 @@
-﻿MonsterID,Name,Name_KR,Description,HP,MP,Damage,Skills,DropSoul (SoulID:Weight),DropItems (SoulID:Weight:Count),ObjectID,SpriteID
+﻿MonsterID,Name,Name_KR,Description,HP,MP,Damage,Skills,DropSoul (SoulID:Weight),DropItems (ItemID:Weight:Count),ObjectID,SpriteID
 mon_0001,Goblin,고블린,Test1,100,10,20,skill_001;skill_002,soul_0001:1,item_001:5:2;item_002:5:3,ob_0001,sp_0001
 mon_0002,Hat,고블린 궁수,Test2,,,,,soul_0002:1,,ob_0002,sp_0002
 mon_0003,Tiara,노움,Test3,,,,,,,ob_0003,sp_0003
