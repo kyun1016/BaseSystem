@@ -39,7 +39,7 @@ public class InventoryManager : Singleton<InventoryManager>
         inventoryData.Add(itemID);
         int addedIndex = inventoryData.Count - 1;
         OnInventoryChanged?.Invoke(itemID, addedIndex, true);
-        Debug.Log($"[아이템 획득] {itemData.Base.Name.KR} (총 {GetItemCount(itemID)}개)");
+        Debug.Log($"[아이템 획득] {itemData.Base.Alias} (총 {GetItemCount(itemID)}개)");
     }
 
     // =======================================================
@@ -106,7 +106,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
         if(itemData.ItemType != eItemType.Consumable)
         {
-            Debug.LogWarning($"아이템 {itemData.Base.Name.KR}은(는) 사용 불가능한 타입입니다.");
+            Debug.LogWarning($"아이템 {itemData.Base.Alias}은(는) 사용 불가능한 타입입니다.");
             return false;
         }
 
@@ -119,7 +119,7 @@ public class InventoryManager : Singleton<InventoryManager>
             PlayerStatManager.Instance.AddStat(effect.Key, effect.Value);
         }
 
-        Debug.Log($"<color=orange>[아이템 사용] {itemData.Base.Name.KR}을(를) 사용했습니다. (슬롯:{index})</color>");
+        Debug.Log($"<color=orange>[아이템 사용] {itemData.Base.Alias}을(를) 사용했습니다. (슬롯:{index})</color>");
         return true;
     }
 

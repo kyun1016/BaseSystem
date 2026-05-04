@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 39
     Header: 1
     Key: 100000039
-    Name:
-      KR: "\uBAAC\uC2A4\uD130 \uD0AC"
-      EN: KillCount
+    Alias: KillCount
+  Name:
+    KR: "\uBAAC\uC2A4\uD130 \uD0AC"
+    EN: KillCount
   Description:
     KR: 
     EN: 

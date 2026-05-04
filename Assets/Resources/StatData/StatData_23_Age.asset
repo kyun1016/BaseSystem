@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 23
     Header: 1
     Key: 100000023
-    Name:
-      KR: "\uB098\uC774"
-      EN: Age
+    Alias: Age
+  Name:
+    KR: "\uB098\uC774"
+    EN: Age
   Description:
     KR: 
     EN: 

@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 3
     Header: 1
     Key: 100000003
-    Name:
-      KR: "\uC9C0\uB2A5"
-      EN: Intelligence
+    Alias: Intelligence
+  Name:
+    KR: "\uC9C0\uB2A5"
+    EN: Intelligence
   Description:
     KR: "\uB538\uC758 \uC9C0\uC801 \uB2A5\uB825. \uC804\uD22C \uC2DC MP\uAC00 \uB418\uBA70,
       \uBB34\uC0AC\uC218\uD589\uC5D0\uC11C '\uC228\uB294\uB2E4' \uCEE4\uB9E8\uB4DC\uC758

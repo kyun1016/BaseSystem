@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 33
     Header: 1
     Key: 100000033
-    Name:
-      KR: "\uC5C9\uB369\uC774"
-      EN: Hip
+    Alias: Hip
+  Name:
+    KR: "\uC5C9\uB369\uC774"
+    EN: Hip
   Description:
     KR: 
     EN: 

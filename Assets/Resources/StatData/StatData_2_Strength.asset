@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 2
     Header: 1
     Key: 100000002
-    Name:
-      KR: "\uADFC\uB825"
-      EN: Strength
+    Alias: Strength
+  Name:
+    KR: "\uADFC\uB825"
+    EN: Strength
   Description:
     KR: "\uCCB4\uB825\uACFC\uB294 \uBCC4\uAC1C\uC758 \uC218\uCE58\uB85C, \uADFC\uC721\uC758
       \uD798\uC744 \uC758\uBBF8\uD55C\uB2E4. \uADFC\uB825 10\uB2F9 \uACF5\uACA9\uB825

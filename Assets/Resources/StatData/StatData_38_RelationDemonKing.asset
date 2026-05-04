@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 38
     Header: 1
     Key: 100000038
-    Name:
-      KR: "\uB9C8\uC655\uACFC\uC758 \uAD00\uACC4"
-      EN: RelationDemonKing
+    Alias: RelationDemonKing
+  Name:
+    KR: "\uB9C8\uC655\uACFC\uC758 \uAD00\uACC4"
+    EN: RelationDemonKing
   Description:
     KR: 
     EN: 

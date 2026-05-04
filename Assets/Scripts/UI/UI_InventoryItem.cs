@@ -26,7 +26,7 @@ public class UI_InventoryItem : MonoBehaviour
     {
         currentItemID = data.Base.ID;
         index = slotIndex;
-        nameText.text = data.Base.Name.KR;
+        nameText.text = data.Name.KR;
         sellPriceText.text = data.SellPrice.ToString();
         effect1Text.text = BuildEffectText(data, 0);
         effect2Text.text = BuildEffectText(data, 1);

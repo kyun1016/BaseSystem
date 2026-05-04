@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 30
     Header: 1
     Key: 100000030
-    Name:
-      KR: "\uCCB4\uC911"
-      EN: Weight
+    Alias: Weight
+  Name:
+    KR: "\uCCB4\uC911"
+    EN: Weight
   Description:
     KR: 
     EN: 

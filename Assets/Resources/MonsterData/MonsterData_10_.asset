@@ -16,10 +16,13 @@ MonoBehaviour:
     ID: 10
     Header: 7
     Key: 700000010
-    Name:
-      KR: 
-      EN: 
-  Description: 
+    Alias: 
+  Name:
+    KR: 
+    EN: 
+  Description:
+    KR: 
+    EN: 
   HP: 0
   MP: 0
   Damage: 0

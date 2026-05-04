@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 2
     Header: 2
     Key: 200000002
-    Name:
-      KR: "\uBAA8\uC790"
-      EN: Hat
+    Alias: Hat
+  Name:
+    KR: "\uBAA8\uC790"
+    EN: Hat
   Description:
     KR: Test2
     EN: Test2
@@ -28,11 +29,11 @@ MonoBehaviour:
   EffectStats:
   - Key: 100000007
     KeyName: Stat_Faith
-    Name: Faith
+    Alias: Faith
     Value: 1
   - Key: 100000006
     KeyName: Stat_Ethics
-    Name: Ethics
+    Alias: Ethics
     Value: 2
   IsHidden: 0
   IconPath: 

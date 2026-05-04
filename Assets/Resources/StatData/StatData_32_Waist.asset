@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 32
     Header: 1
     Key: 100000032
-    Name:
-      KR: "\uD5C8\uB9AC"
-      EN: Waist
+    Alias: Waist
+  Name:
+    KR: "\uD5C8\uB9AC"
+    EN: Waist
   Description:
     KR: 
     EN: 

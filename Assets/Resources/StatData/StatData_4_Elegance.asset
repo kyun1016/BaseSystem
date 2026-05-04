@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 4
     Header: 1
     Key: 100000004
-    Name:
-      KR: "\uAE30\uD488"
-      EN: Elegance
+    Alias: Elegance
+  Name:
+    KR: "\uAE30\uD488"
+    EN: Elegance
   Description:
     KR: "\uB538\uC758 \uD488\uC704\uC640 \uBAB8\uAC00\uC9D0. \uACE0\uC704\uC9C1 \uC5D4\uB529\uC5D0
       \uD544\uC218\uC801\uC73C\uB85C \uAD00\uC5EC\uD558\uB294 \uC218\uCE58\uB2E4."

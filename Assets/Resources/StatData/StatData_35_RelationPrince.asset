@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 35
     Header: 1
     Key: 100000035
-    Name:
-      KR: "\uC655\uC790\uC640\uC758 \uAD00\uACC4"
-      EN: RelationPrince
+    Alias: RelationPrince
+  Name:
+    KR: "\uC655\uC790\uC640\uC758 \uAD00\uACC4"
+    EN: RelationPrince
   Description:
     KR: 
     EN: 

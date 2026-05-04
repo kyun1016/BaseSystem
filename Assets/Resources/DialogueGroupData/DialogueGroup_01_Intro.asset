@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a098b3044ed32884abb7a57373ba638f, type: 3}
+  m_Name: DialogueGroup_01_Intro
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueGroup
+  Base:
+    ID: 10000
+    Header: 3
+    Key: 300010000
+    Alias: 01_Intro
+  StartNodeKey: 300010001
+  Nodes:
+  - {fileID: 11400000, guid: 2270a24407a68f348806a8aca59f409e, type: 2}
+  - {fileID: 11400000, guid: 15a7678f54294894cb51beec6a4a0837, type: 2}
+  - {fileID: 11400000, guid: c86f7bea438ff48428994134bc61b725, type: 2}
+  - {fileID: 11400000, guid: 162fd0e956108474fab886d8e0452542, type: 2}
+  - {fileID: 11400000, guid: c7b03d4ec6a28244db69d5b24394bfdd, type: 2}
+  - {fileID: 11400000, guid: 6ef0c982fb68aaf4a920d1735d4c4454, type: 2}

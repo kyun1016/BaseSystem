@@ -1,0 +1,11 @@
+﻿ID,Alias,Text_EN,Text_KR,Speakder [NPC],Type,ActionType,ActionTarget,StatConditions [Stat],ItemConditions [Item],QuestConditions [Quest],NextNodes [Dialogue]
+10001,Intro_01,게임 시작,게임 시작,,Line,,,,,,Intro_02
+,,튜토리얼 시작,튜토리얼 시작,,,,,,,,
+,,아자아자,아자아자,,,,,,,,
+10002,Intro_02,선택지 1,선택지 1,,Choice,,,,,,Intro_03A
+,,선택지 2,선택지 2,,,,,,,,Intro_03B
+,,선택지 3,선택지 3,,,,,,,,Intro_03C
+10003,Intro_03A,1번,1번,,Line,,,,,,Intro_04
+10004,Intro_03B,2번,2번,,Action,,,,,,Intro_04
+10005,Intro_03C,3번,3번,,Action,,,,,,Intro_04
+10006,Intro_04,Test5,Test5,,End,,,,,,

@@ -16,15 +16,24 @@ MonoBehaviour:
     ID: 3
     Header: 2
     Key: 200000003
-    Name:
-      KR: "\uD2F0\uC544\uB77C"
-      EN: Tiara
+    Alias: Tiara
+  Name:
+    KR: "\uD2F0\uC544\uB77C"
+    EN: Tiara
   Description:
     KR: Test3
     EN: Test3
   ItemType: 1
   BuyPrice: 3000
   SellPrice: 300
-  EffectStats: []
+  EffectStats:
+  - Key: 100000007
+    KeyName: Stat_Faith
+    Alias: Faith
+    Value: 1
+  - Key: 100000006
+    KeyName: Stat_Ethics
+    Alias: Ethics
+    Value: 2
   IsHidden: 0
   IconPath: 

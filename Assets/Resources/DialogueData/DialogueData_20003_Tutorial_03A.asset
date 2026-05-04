@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7c831e3af36f647b37a3bf405acfd2, type: 3}
+  m_Name: DialogueData_20003_Tutorial_03A
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  Base:
+    ID: 20003
+    Header: 3
+    Key: 300020003
+    Alias: Tutorial_03A
+  Texts:
+  - KR: "1\uBC88"
+    EN: "1\uBC88"
+  Speakder: 
+  DialogueType: 0
+  ActionType: 0
+  ActionTarget: 
+  StatCondition: []
+  ItemCondition: []
+  QuestCondition: []
+  NextNodeKeys: 26f1e111

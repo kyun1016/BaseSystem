@@ -9,13 +9,14 @@ using System.Text;
 public class GameDataParser : EditorWindow
 {
     private const string GeneratedMapFolder = "Assets/Datas/_Generated";
-    private static readonly Dictionary<string, int> NameToKey = new(StringComparer.OrdinalIgnoreCase);
-    private static readonly Dictionary<int, string> KeyToName = new();
+    private static readonly Dictionary<string, int> AliasToKey = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<int, string> KeyToAlias = new();
 
     // =======================================================
     // 파싱 설정
-    private static readonly string[] DataNames = { "Stat", "Item", "Monster" };
-        [MenuItem("Tools/Data Parse/Parse All CSV")]
+    private static readonly string[] DataNames = { "Stat", "Item", "Monster" }; // Dialogue는 DialogueParser가 전담
+
+    [MenuItem("Tools/Data Parse/Parse All CSV")]
     public static void ParseAllCSV()
     {
         {       
@@ -32,7 +33,7 @@ public class GameDataParser : EditorWindow
             ParseByDataName(dataName);
         }
 
-        
+        DialogueParser.ParseAllDialogue();
     }
 
     private static void ParseMapByDataName(string dataName)
@@ -59,12 +60,16 @@ public class GameDataParser : EditorWindow
         {
             string[] columns = rows[i];
             string id = columns[0];
-            string name = $"{dataName}_{columns[1]}";
+            if (!int.TryParse(id, out int parsedId)) {
+                Debug.LogWarning($"[라인 {i + 1}] ID 열이 정수가 아닙니다: '{id}' (이 라인은 매핑 테이블에서 스킵됩니다)");
+                continue; // ID 없는 서브라인 스킵
+            }
+            string alias = $"{dataName}_{columns[1]}";
 
-            int key = int.Parse(id) + (int)(eHeader)Enum.Parse(typeof(eHeader), dataName, true) * BaseData.HEADER_SIZE;
-            string trimmed = name.Trim();
-            NameToKey[trimmed] = key;
-            KeyToName[key] = trimmed;
+            int key = parsedId + (int)(eHeader)Enum.Parse(typeof(eHeader), dataName, true) * BaseData.HEADER_SIZE;
+            string trimmed = alias.Trim();
+            AliasToKey[trimmed] = key;
+            KeyToAlias[key] = trimmed;
         }
     }
     private static void ParseByDataName(string dataName)
@@ -170,9 +175,9 @@ public class GameDataParser : EditorWindow
         {
             string[] columns = rows[i];
             string id = columns[0];
-            string name = columns[1];
+            string alias = columns[1];
 
-            string fullPath = $"{savePath}/{typeof(T).Name}_{id}_{name}.asset";
+            string fullPath = $"{savePath}/{typeof(T).Name}_{id}_{alias}.asset";
             validAssetPaths.Add(fullPath);
             T assetData = AssetDatabase.LoadAssetAtPath<T>(fullPath);
             bool isNew = false;
@@ -218,12 +223,8 @@ public class GameDataParser : EditorWindow
                         field.SetValue(assetData, locStr);
                     }
                     else if (fieldType == typeof(BaseData)) {
-                        LocalizedString locStr = new LocalizedString {
-                                EN = columns[++j],
-                                KR = columns[++j],
-                                // 추가 언어는 여기서 확장...
-                        };
-                        BaseData data = new BaseData(int.Parse(csvValue), (eHeader)Enum.Parse(typeof(eHeader), dataName, true), locStr);
+                        string baseAlias = columns[++j];
+                        BaseData data = new BaseData(int.Parse(csvValue), (eHeader)Enum.Parse(typeof(eHeader), dataName, true), baseAlias);
                         field.SetValue(assetData, data);
                     }
                     else if (fieldType == typeof(List<string>)) field.SetValue(assetData, ParseStringList(csvValue));
@@ -274,7 +275,7 @@ public class GameDataParser : EditorWindow
     // =======================================================
     // 헬퍼 함수 모음
     // =======================================================
-    private static List<string[]> ReadCSV(string text)
+    public static List<string[]> ReadCSV(string text)
     {
         List<string[]> rows = new List<string[]>();
         List<string> columns = new List<string>();
@@ -332,7 +333,7 @@ public class GameDataParser : EditorWindow
         return rows;
     }
 
-    private static void CreateFolderRecursive(string path)
+    public static void CreateFolderRecursive(string path)
     {
         string[] folders = path.Split('/');
         string currentPath = folders[0];
@@ -376,12 +377,25 @@ public class GameDataParser : EditorWindow
     }
 
     // =======================================================
+    // 외부 접근용 공개 API (DialogueParser 등에서 사용)
+    // =======================================================
+    public static void RebuildAliasMaps()
+    {
+        // ResetMapCaches();
+        foreach (string dataName in DataNames)
+            ParseMapByDataName(dataName);
+    }
+
+    public static int TryResolveAlias(string alias)
+        => AliasToKey.TryGetValue(alias, out int key) ? key : -1;
+
+    // =======================================================
     // 커스텀 리스트 파서
     // =======================================================
     private static void ResetMapCaches()
     {
-        NameToKey.Clear();
-        KeyToName.Clear();
+        AliasToKey.Clear();
+        KeyToAlias.Clear();
     }
 
     private static void ExportKeyNameMap()
@@ -391,13 +405,13 @@ public class GameDataParser : EditorWindow
 
         StringBuilder all = new StringBuilder();
         all.AppendLine("Key,Name");
-        foreach (var pair in KeyToName)
+        foreach (var pair in KeyToAlias)
             all.AppendLine($"{pair.Key},{pair.Value}");
 
         File.WriteAllText(Path.Combine(generatedDiskFolder, "Key_Name_Map.csv"), all.ToString(), Encoding.UTF8);
 
         AssetDatabase.Refresh();
-        Debug.Log($"<color=cyan><b>ID/Name 매핑 테이블 출력 완료: {GeneratedMapFolder} ({KeyToName.Count}개)</b></color>");
+        Debug.Log($"<color=cyan><b>ID/Name 매핑 테이블 출력 완료: {GeneratedMapFolder} ({KeyToAlias.Count}개)</b></color>");
     }
 
     private static List<string> ParseStringList(string data)
@@ -428,20 +442,20 @@ public class GameDataParser : EditorWindow
                 Debug.LogWarning($"참조 데이터의 값이 정수가 아닙니다: '{split[1]}' (올바른 형식: 'Name:Value'에서 Value는 정수여야 합니다)");
                 continue;
             }
-            string name = $"{type}_{split[0].Trim()}";
+            string alias = $"{type}_{split[0].Trim()}";
 
-            int key = NameToKey.TryGetValue(name, out int cachedKey) ? cachedKey : -1;
+            int key = AliasToKey.TryGetValue(alias, out int cachedKey) ? cachedKey : -1;
             if (key == -1)
             {
-                Debug.LogWarning($"참조 이름을 찾을 수 없습니다: {name}");
+                Debug.LogWarning($"참조 이름을 찾을 수 없습니다: {alias} (AliasToKey 맵에 존재하지 않음)");
                 continue;
             }
 
             list.Add(new ReferenceData
             {
                 Key = key,
-                KeyName = name,
-                Name = split[0].Trim(),
+                KeyName = alias,
+                Alias = split[0].Trim(),
                 Value = value
             });
         }

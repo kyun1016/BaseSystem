@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 25
     Header: 1
     Key: 100000025
-    Name:
-      KR: "\uC6D4"
-      EN: Month
+    Alias: Month
+  Name:
+    KR: "\uC6D4"
+    EN: Month
   Description:
     KR: 
     EN: 

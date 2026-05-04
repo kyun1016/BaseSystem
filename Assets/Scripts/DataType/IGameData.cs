@@ -1,7 +1,7 @@
 public interface IGameData
 {
-    int ID { get; }
-    int TypeHeader { get; }
-    int Number { get; }
-    void SetID(int id);
+    public int ID { get; }
+    public eHeader Header { get; }
+    public int Key { get; }
+    public string Alias { get; }
 }

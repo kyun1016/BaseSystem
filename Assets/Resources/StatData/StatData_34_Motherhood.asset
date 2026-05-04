@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 34
     Header: 1
     Key: 100000034
-    Name:
-      KR: "\uBAA8\uC131"
-      EN: Motherhood
+    Alias: Motherhood
+  Name:
+    KR: "\uBAA8\uC131"
+    EN: Motherhood
   Description:
     KR: 
     EN: 

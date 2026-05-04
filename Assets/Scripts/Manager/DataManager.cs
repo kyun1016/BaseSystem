@@ -7,7 +7,7 @@ public class DataManager : Singleton<DataManager>
 {
     private const bool AutoDumpIdNameMapOnInit = true;
 
-    private readonly Dictionary<int, BaseData> baseDict = new Dictionary<int, BaseData>();
+    private readonly Dictionary<int, IGameData> DataMap = new Dictionary<int, IGameData>();
     private readonly Dictionary<int, ItemData> itemDict = new Dictionary<int, ItemData>();
     private readonly Dictionary<string, int> itemNameToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<int, string> itemIdToName = new Dictionary<int, string>();
@@ -18,7 +18,7 @@ public class DataManager : Singleton<DataManager>
 
     public void Init()
     {
-        baseDict.Clear();
+        DataMap.Clear();
 
         itemDict.Clear();
         itemNameToId.Clear();
@@ -32,15 +32,16 @@ public class DataManager : Singleton<DataManager>
         foreach (var item in items)
         {
             itemDict[item.Base.Key] = item;
-            baseDict[item.Base.Key] = item.Base;
-            RegisterNameIdMap(item.Base.Key, item.Base.Name.EN, itemIdToName, itemNameToId, "Item");
+            DataMap[item.Base.Key] = item;
+            RegisterNameIdMap(item.Base.Key, item.Name.EN, itemIdToName, itemNameToId, "Item");
         }
 
         StatData[] stats = Resources.LoadAll<StatData>("StatData");
         foreach (var stat in stats)
         {
             statDict[stat.Base.Key] = stat;
-            RegisterNameIdMap(stat.Base.Key, stat.Base.Name.EN, statIdToName, statNameToId, "Stat");
+            DataMap[stat.Base.Key] = stat;
+            RegisterNameIdMap(stat.Base.Key, stat.Name.EN, statIdToName, statNameToId, "Stat");
         }
 
         Debug.Log($"<color=cyan>[DataManager] 데이터 로드 완료: 아이템 {itemDict.Count}개, 스탯 {statDict.Count}개</color>");

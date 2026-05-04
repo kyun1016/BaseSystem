@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 7
     Header: 1
     Key: 100000007
-    Name:
-      KR: "\uC2E0\uC559"
-      EN: Faith
+    Alias: Faith
+  Name:
+    KR: "\uC2E0\uC559"
+    EN: Faith
   Description:
     KR: "\uB538\uC774 \uC2E0\uC744 \uBBFF\uB294 \uBBFF\uC74C\uC758 \uC815\uB3C4.
       \uB2A5\uB825\uCE58 \uD6A8\uACFC\uB294 \uB3C4\uB355\uC131\uACFC \uBE44\uC2B7\uD558\uC9C0\uB9CC

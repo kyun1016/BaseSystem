@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 8
     Header: 1
     Key: 100000008
-    Name:
-      KR: "\uC778\uACFC"
-      EN: Karma
+    Alias: Karma
+  Name:
+    KR: "\uC778\uACFC"
+    EN: Karma
   Description:
     KR: "\uB538\uC774 \uC0B4\uBA74\uC11C \uC9C0\uC740 \uC8C4\uC758 \uC815\uB3C4.
       \uB9CE\uC740 \uBC30\uB4DC\uC5D4\uB529 \uACC4\uC5F4\uC5D0\uC11C \uC5C5\uBCF4

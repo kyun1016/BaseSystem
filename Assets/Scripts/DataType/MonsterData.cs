@@ -17,11 +17,17 @@ public class MonsterItemDrop
 }
 
 [CreateAssetMenu(fileName = "NewMonsterData", menuName = "ScriptableObjects/MonsterData", order = 1)]
-public class MonsterData : ScriptableObject
+public class MonsterData : ScriptableObject, IGameData
 {
     public BaseData Base;
-    [TextArea]
-    public string Description;
+
+    // IGameData 구현 — Base에 위임
+    public int ID => Base?.ID ?? 0;
+    public eHeader Header => Base?.Header ?? eHeader.None;
+    public int Key => Base?.Key ?? 0;
+    public string Alias => Base?.Alias ?? string.Empty;
+    public LocalizedString Name;
+    public LocalizedString Description;
     public int HP;
     public int MP;
     public int Damage;

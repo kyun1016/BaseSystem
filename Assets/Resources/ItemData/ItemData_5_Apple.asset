@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 5
     Header: 2
     Key: 200000005
-    Name:
-      KR: "\uC0AC\uACFC"
-      EN: Apple
+    Alias: Apple
+  Name:
+    KR: "\uC0AC\uACFC"
+    EN: Apple
   Description:
     KR: Test5
     EN: Test5
@@ -28,11 +29,11 @@ MonoBehaviour:
   EffectStats:
   - Key: 100000004
     KeyName: Stat_Elegance
-    Name: Elegance
+    Alias: Elegance
     Value: 1
   - Key: 100000010
     KeyName: Stat_Stress
-    Name: Stress
+    Alias: Stress
     Value: 2
   IsHidden: 0
   IconPath: 

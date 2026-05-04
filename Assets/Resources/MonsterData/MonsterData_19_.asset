@@ -16,10 +16,13 @@ MonoBehaviour:
     ID: 19
     Header: 7
     Key: 700000019
-    Name:
-      KR: 
-      EN: 
-  Description: 
+    Alias: 
+  Name:
+    KR: 
+    EN: 
+  Description:
+    KR: 
+    EN: 
   HP: 0
   MP: 0
   Damage: 0

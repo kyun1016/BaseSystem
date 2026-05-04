@@ -35,28 +35,28 @@ public struct LocalizedString
 public class BaseData
 {
     // Const
-    static public int HEADER_SIZE = 100_000_000;
+    static public int HEADER_SIZE = 1_0000_0000;
 
     // member variables
     public int ID;
     public eHeader Header;
     public int Key;
-    public LocalizedString Name;
+    public string Alias;
 
     // Constructors
     public BaseData() {}
-    public BaseData(int id, eHeader header, LocalizedString name)
+    public BaseData(int id, eHeader header, string alias)
     {
         ID = id;
         Header = header;
         Key = ID + (int)Header * HEADER_SIZE;
-        Name = name;
+        Alias = alias;
     }
     // Functions
     public int GetID() => ID;
     public eHeader GetHeader() => Header;
     public int GetKey() => Key;
-    public LocalizedString GetName() => Name;
+    public string GetAlias() => Alias;
 
      // == / != 연산자 오버로딩
     public static bool operator ==(BaseData a, BaseData b)
@@ -75,14 +75,14 @@ public struct ReferenceData
 {
     public int Key;
     public string KeyName;
-    public string Name;
+    public string Alias;
     public int Value;
 
-    public ReferenceData(int key, string keyName, string name, int value)
+    public ReferenceData(int key, string keyName, string alias, int value)
     {
         Key = key;
         KeyName = keyName;
-        Name = name;
+        Alias = alias;
         Value = value;
     }
 }

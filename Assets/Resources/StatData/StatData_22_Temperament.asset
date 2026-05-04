@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 22
     Header: 1
     Key: 100000022
-    Name:
-      KR: "\uC131\uD488"
-      EN: Temperament
+    Alias: Temperament
+  Name:
+    KR: "\uC131\uD488"
+    EN: Temperament
   Description:
     KR: "\uB538\uC758 \uB9C8\uC74C\uAC00\uC9D0\uACFC \uC131\uACA9\uC73C\uB85C \uC655\uBE44\uC640\uC758
       \uC778\uB9E5\uC5D0\uC11C \uD544\uC218\uC801\uC774\uB2E4."

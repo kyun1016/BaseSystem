@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 4
     Header: 2
     Key: 200000004
-    Name:
-      KR: "\uB098\uBE44\uC7A5\uC2DD"
-      EN: FlyPin
+    Alias: FlyPin
+  Name:
+    KR: "\uB098\uBE44\uC7A5\uC2DD"
+    EN: FlyPin
   Description:
     KR: Test4
     EN: Test4
@@ -28,11 +29,11 @@ MonoBehaviour:
   EffectStats:
   - Key: 100000003
     KeyName: Stat_Intelligence
-    Name: Intelligence
+    Alias: Intelligence
     Value: 1
   - Key: 100000008
     KeyName: Stat_Karma
-    Name: Karma
+    Alias: Karma
     Value: 2
   IsHidden: 1
   IconPath: 

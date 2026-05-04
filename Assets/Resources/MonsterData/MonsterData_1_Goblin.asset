@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e00168924db2b4dad4a6700006acf8, type: 3}
+  m_Name: MonsterData_1_Goblin
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  Base:
+    ID: 1
+    Header: 7
+    Key: 700000001
+    Alias: Goblin
+  Name:
+    KR: "\uACE0\uBE14\uB9B0"
+    EN: Goblin
+  Description:
+    KR: Test1
+    EN: Test1
+  HP: 100
+  MP: 10
+  Damage: 20
+  Skills:
+  - skill_001
+  - skill_002
+  DropSoul: []
+  DropItems: []
+  ObjectID: 0
+  SpriteID: 0

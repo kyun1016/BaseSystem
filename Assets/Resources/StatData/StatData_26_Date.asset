@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 26
     Header: 1
     Key: 100000026
-    Name:
-      KR: "\uC77C"
-      EN: Date
+    Alias: Date
+  Name:
+    KR: "\uC77C"
+    EN: Date
   Description:
     KR: 
     EN: 

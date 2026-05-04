@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 6
     Header: 1
     Key: 100000006
-    Name:
-      KR: "\uB3C4\uB355\uC131"
-      EN: Ethics
+    Alias: Ethics
+  Name:
+    KR: "\uB3C4\uB355\uC131"
+    EN: Ethics
   Description:
     KR: "\uB538\uC758 \uC591\uC2EC\uACFC \uCC29\uD55C \uC131\uD488\uC758 \uC815\uB3C4.
       \uC774 \uC218\uCE58\uAC00 \uB0AE\uC73C\uBA74 \uB538\uC774 \uBD88\uB7C9\uC0C1\uD0DC\uAC00

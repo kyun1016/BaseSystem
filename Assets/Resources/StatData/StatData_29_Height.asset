@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 29
     Header: 1
     Key: 100000029
-    Name:
-      KR: "\uD0A4"
-      EN: Height
+    Alias: Height
+  Name:
+    KR: "\uD0A4"
+    EN: Height
   Description:
     KR: 
     EN: 

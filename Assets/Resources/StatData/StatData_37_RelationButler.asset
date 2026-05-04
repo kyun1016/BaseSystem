@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 37
     Header: 1
     Key: 100000037
-    Name:
-      KR: "\uC9D1\uC0AC\uC640\uC758 \uAD00\uACC4"
-      EN: RelationButler
+    Alias: RelationButler
+  Name:
+    KR: "\uC9D1\uC0AC\uC640\uC758 \uAD00\uACC4"
+    EN: RelationButler
   Description:
     KR: 
     EN: 

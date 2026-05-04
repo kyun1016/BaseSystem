@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 17
     Header: 1
     Key: 100000017
-    Name:
-      KR: "\uC608\uC758\uBC94\uC808"
-      EN: Etiquette
+    Alias: Etiquette
+  Name:
+    KR: "\uC608\uC758\uBC94\uC808"
+    EN: Etiquette
   Description:
     KR: "\uB538\uC758 \uC608\uC758\uB97C \uC798 \uC9C0\uD0A4\uB294 \uB2A5\uB825\uC73C\uB85C
       \uC655\uAD81\uC5D0\uC11C \uC778\uB9E5\uC744 \uC313\uACE0 \uC2F6\uC73C\uBA74

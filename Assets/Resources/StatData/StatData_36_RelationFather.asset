@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 36
     Header: 1
     Key: 100000036
-    Name:
-      KR: "\uC544\uBC84\uC9C0\uC640\uC758 \uAD00\uACC4"
-      EN: RelationFather
+    Alias: RelationFather
+  Name:
+    KR: "\uC544\uBC84\uC9C0\uC640\uC758 \uAD00\uACC4"
+    EN: RelationFather
   Description:
     KR: 
     EN: 

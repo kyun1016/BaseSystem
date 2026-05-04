@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 5
     Header: 1
     Key: 100000005
-    Name:
-      KR: "\uC0C9\uAE30"
-      EN: Charm
+    Alias: Charm
+  Name:
+    KR: "\uC0C9\uAE30"
+    EN: Charm
   Description:
     KR: "\uB538\uC758 \uC544\uB984\uB2E4\uC6C0\uACFC \uC139\uC2DC\uD568. \uC62C\uB9AC\uAE30
       \uB9E4\uC6B0 \uD798\uB4E4\uAE30 \uB54C\uBB38\uC5D0 \uACF5\uC9DC\uB85C 300~400\uAE4C\uC9C0

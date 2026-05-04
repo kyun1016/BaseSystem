@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 27
     Header: 1
     Key: 100000027
-    Name:
-      KR: "\uD608\uC561\uD615"
-      EN: BloodType
+    Alias: BloodType
+  Name:
+    KR: "\uD608\uC561\uD615"
+    EN: BloodType
   Description:
     KR: 
     EN: 

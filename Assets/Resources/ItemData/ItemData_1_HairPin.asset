@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 1
     Header: 2
     Key: 200000001
-    Name:
-      KR: "\uBA38\uB9AC\uD540"
-      EN: HairPin
+    Alias: HairPin
+  Name:
+    KR: "\uBA38\uB9AC\uD540"
+    EN: HairPin
   Description:
     KR: Test1
     EN: Test1
@@ -28,11 +29,11 @@ MonoBehaviour:
   EffectStats:
   - Key: 100000001
     KeyName: Stat_Stamina
-    Name: Stamina
+    Alias: Stamina
     Value: 1
   - Key: 100000006
     KeyName: Stat_Ethics
-    Name: Ethics
+    Alias: Ethics
     Value: 2
   IsHidden: 0
   IconPath: 

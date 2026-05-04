@@ -15,7 +15,7 @@ public class UI_StatItem : MonoBehaviour
     public void Initialize(StatData data, int currentValue)
     {
         TargetStat = data.Type;
-        nameText.text = data.Base.Name.KR;
+        nameText.text = data.Name.KR;
         
         // 아이콘 로드 로직 (추후 Addressables로 변경 가능)
         // if (!string.IsNullOrEmpty(data.IconPath)) 

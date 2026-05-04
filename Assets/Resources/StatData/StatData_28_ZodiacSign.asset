@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 28
     Header: 1
     Key: 100000028
-    Name:
-      KR: "\uBCC4\uC790\uB9AC"
-      EN: ZodiacSign
+    Alias: ZodiacSign
+  Name:
+    KR: "\uBCC4\uC790\uB9AC"
+    EN: ZodiacSign
   Description:
     KR: 
     EN: 

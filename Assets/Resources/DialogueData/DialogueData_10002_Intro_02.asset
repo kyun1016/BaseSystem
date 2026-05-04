@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7c831e3af36f647b37a3bf405acfd2, type: 3}
+  m_Name: DialogueData_10002_Intro_02
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  Base:
+    ID: 10002
+    Header: 3
+    Key: 300010002
+    Alias: Intro_02
+  Texts:
+  - KR: "\uC120\uD0DD\uC9C0 1"
+    EN: "\uC120\uD0DD\uC9C0 1"
+  - KR: "\uC120\uD0DD\uC9C0 2"
+    EN: "\uC120\uD0DD\uC9C0 2"
+  - KR: "\uC120\uD0DD\uC9C0 3"
+    EN: "\uC120\uD0DD\uC9C0 3"
+  Speakder: 
+  DialogueType: 1
+  ActionType: 0
+  ActionTarget: 
+  StatCondition: []
+  ItemCondition: []
+  QuestCondition: []
+  NextNodeKeys: 13cae11114cae11115cae111

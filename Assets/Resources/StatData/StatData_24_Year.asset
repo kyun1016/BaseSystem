@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 24
     Header: 1
     Key: 100000024
-    Name:
-      KR: "\uB144"
-      EN: Year
+    Alias: Year
+  Name:
+    KR: "\uB144"
+    EN: Year
   Description:
     KR: 
     EN: 

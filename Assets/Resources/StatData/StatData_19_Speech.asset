@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 19
     Header: 1
     Key: 100000019
-    Name:
-      KR: "\uD654\uC220"
-      EN: Speech
+    Alias: Speech
+  Name:
+    KR: "\uD654\uC220"
+    EN: Speech
   Description:
     KR: "\uB538\uC774 \uB9D0\uC744 \uC798\uD558\uB294 \uB2A5\uB825\uC73C\uB85C \uD6C4\uAD81\uACFC\uC758
       \uC778\uB9E5\uACFC \uAD11\uB300\uC640\uC758 \uB300\uD654\uC5D0 \uD544\uC694\uD55C

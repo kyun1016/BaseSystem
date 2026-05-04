@@ -16,9 +16,10 @@ MonoBehaviour:
     ID: 31
     Header: 1
     Key: 100000031
-    Name:
-      KR: "\uAC00\uC2B4"
-      EN: breast
+    Alias: breast
+  Name:
+    KR: "\uAC00\uC2B4"
+    EN: breast
   Description:
     KR: 
     EN: 
