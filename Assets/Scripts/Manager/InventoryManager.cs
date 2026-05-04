@@ -4,50 +4,50 @@ using System.Collections.Generic;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
+    public static readonly int BASE_KEY = (int)eHeader.Item * BaseData.HEADER_SIZE;
     private List<int> inventoryData = new List<int>();
 
     // UI 갱신을 위한 이벤트 방송국 (아이템 ID, 슬롯 인덱스, 추가 여부)
-    public event Action<int, int, bool> OnInventoryChanged;
+    public event Action<int, int, bool> OnChanged;
 
     public void Init()
     {
         // 추후 세이브 파일이 있다면 여기서 inventoryData를 로드해서 덮어씌웁니다.
         inventoryData.Clear();
 
-        InventoryManager.Instance.AddItem(1);
-        InventoryManager.Instance.AddItem(1);
-        InventoryManager.Instance.AddItem(2);
-        InventoryManager.Instance.AddItem(3);
-        InventoryManager.Instance.AddItem(4);
-        InventoryManager.Instance.AddItem(5);
+        InventoryManager.Instance.AddItem(BASE_KEY + 1);
+        InventoryManager.Instance.AddItem(BASE_KEY + 1);
+        InventoryManager.Instance.AddItem(BASE_KEY + 2);
+        InventoryManager.Instance.AddItem(BASE_KEY + 3);
+        InventoryManager.Instance.AddItem(BASE_KEY + 4);
+        InventoryManager.Instance.AddItem(BASE_KEY + 5);
         Debug.Log("인벤토리 시스템 초기화 완료");
     }
 
     // =======================================================
     // 1. 아이템 획득
     // =======================================================
-    public void AddItem(int itemID)
+    public void AddItem(int key)
     {
         // 존재하는 아이템인지 DataManager에 검증
-        ItemData itemData = DataManager.Instance.GetItem(itemID);
+        ItemData itemData = DataManager.Instance.GetItem(key);
         if (itemData == null)
         {
-            Debug.LogWarning($"존재하지 않는 아이템 ID({itemID})를 획득하려고 시도했습니다.");
+            Debug.LogWarning($"존재하지 않는 아이템 ID({key})를 획득하려고 시도했습니다.");
             return;
         }
 
-        inventoryData.Add(itemID);
-        int addedIndex = inventoryData.Count - 1;
-        OnInventoryChanged?.Invoke(itemID, addedIndex, true);
-        Debug.Log($"[아이템 획득] {itemData.Base.Alias} (총 {GetItemCount(itemID)}개)");
+        inventoryData.Add(key);
+        OnChanged?.Invoke(key, inventoryData.Count - 1, true);
+        Debug.Log($"[아이템 획득] {itemData.Base.Alias} (총 {GetItemCount(key)}개)");
     }
 
     // =======================================================
     // 2. 아이템 소모 (상점 판매, 퀘스트 제출 등)
     // =======================================================
-    public bool RemoveItem(int itemID)
+    public bool RemoveItem(int key)
     {
-        int removeIndex = inventoryData.IndexOf(itemID);
+        int removeIndex = inventoryData.IndexOf(key);
         if (removeIndex < 0)
         {
             Debug.Log("아이템이 부족합니다.");
@@ -65,18 +65,18 @@ public class InventoryManager : Singleton<InventoryManager>
             return false;
         }
 
-        int itemID = inventoryData[index];
+        int key = inventoryData[index];
         inventoryData.RemoveAt(index);
-        OnInventoryChanged?.Invoke(itemID, index, false);
+        OnChanged?.Invoke(key, index, false);
         return true;
     }
 
     // =======================================================
     // 3. 아이템 사용 (핵심: 스탯 매니저와의 연동)
     // =======================================================
-    public bool UseItem(int itemID)
+    public bool UseItem(int key)
     {
-        int removeIndex = inventoryData.IndexOf(itemID);
+        int removeIndex = inventoryData.IndexOf(key);
         if (removeIndex < 0)
         {
             Debug.Log("아이템이 부족합니다.");
@@ -94,13 +94,13 @@ public class InventoryManager : Singleton<InventoryManager>
             return false;
         }
 
-        int itemID = inventoryData[index];
+        int key = inventoryData[index];
 
         // 1. 아이템 사용 조건 검사
-        ItemData itemData = DataManager.Instance.GetItem(itemID);
+        ItemData itemData = DataManager.Instance.GetItem(key);
         if (itemData == null)
         {
-            Debug.LogWarning($"존재하지 않는 아이템 ID({itemID})를 사용하려고 시도했습니다.");
+            Debug.LogWarning($"존재하지 않는 아이템 ID({key})를 사용하려고 시도했습니다.");
             return false;
         }
 
@@ -124,12 +124,12 @@ public class InventoryManager : Singleton<InventoryManager>
     }
 
     // 특정 아이템을 몇 개 가지고 있는지 반환
-    public int GetItemCount(int itemID)
+    public int GetItemCount(int key)
     {
         int count = 0;
         foreach (var id in inventoryData)
         {
-            if (id == itemID) ++count; // 현재는 중복 아이템이 없으므로 1 또는 0 반환
+            if (id == key) ++count; // 현재는 중복 아이템이 없으므로 1 또는 0 반환
         }
         return count;
     }

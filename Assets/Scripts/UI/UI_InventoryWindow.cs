@@ -15,7 +15,7 @@ public class UI_InventoryWindow : MonoBehaviour
     private void Awake()
     {
         // 한 번만 구독 (창이 열려있든 닫혀있든 이벤트 감지)
-        InventoryManager.Instance.OnInventoryChanged += HandleInventoryChanged;
+        InventoryManager.Instance.OnChanged += HandleChanged;
         isInitialized = true;
     }
 
@@ -27,21 +27,6 @@ public class UI_InventoryWindow : MonoBehaviour
             DrawInventory();
         }
     }
-
-    private void OnDisable()
-    {
-        // 창이 비활성화되어도 구독은 유지 (계속 이벤트 감지)
-        // UI 업데이트만 하지 않음
-    }
-
-    // private void OnDestroy()
-    // {
-    //     // 완전히 파괴될 때만 구독 해제
-    //     if (InventoryManager.Instance != null)
-    //     {
-    //         InventoryManager.Instance.OnInventoryChanged -= HandleInventoryChanged;
-    //     }
-    // }
 
     public void DrawInventory()
     {
@@ -55,7 +40,7 @@ public class UI_InventoryWindow : MonoBehaviour
         }
     }
 
-    private void HandleInventoryChanged(int itemID, int index, bool isAdded)
+    private void HandleChanged(int itemID, int index, bool isAdded)
     {
         // UI가 비활성화되어 있으면 이벤트만 내부 상태에 반영하고
         // 다시 활성화될 때 DrawInventory()로 동기화

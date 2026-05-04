@@ -45,7 +45,7 @@ public class UI_InventoryItem : MonoBehaviour
 
         string statName = null;
         if (DataManager.Instance != null)
-            DataManager.Instance.TryGetStatName(effect.Key, out statName);
+            statName = DataManager.Instance.GetStat(effect.Key).Name.EN;
 
         if (string.IsNullOrWhiteSpace(statName))
             statName = effect.Key.ToString();

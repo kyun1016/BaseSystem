@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
         DataManager.Instance.Init();
         PlayerStatManager.Instance.Init();
         InventoryManager.Instance.Init();
+        DialogueManager.Instance.Init();
 
         // 던전 시스템 초기화 (Input 이벤트 구독)
         DungeonManager.Instance.Init();

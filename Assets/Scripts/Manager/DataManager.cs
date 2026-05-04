@@ -8,126 +8,28 @@ public class DataManager : Singleton<DataManager>
     private const bool AutoDumpIdNameMapOnInit = true;
 
     private readonly Dictionary<int, IGameData> DataMap = new Dictionary<int, IGameData>();
-    private readonly Dictionary<int, ItemData> itemDict = new Dictionary<int, ItemData>();
-    private readonly Dictionary<string, int> itemNameToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<int, string> itemIdToName = new Dictionary<int, string>();
-
-    private readonly Dictionary<int, StatData> statDict = new Dictionary<int, StatData>();
-    private readonly Dictionary<string, int> statNameToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<int, string> statIdToName = new Dictionary<int, string>();
 
     public void Init()
     {
         DataMap.Clear();
 
-        itemDict.Clear();
-        itemNameToId.Clear();
-        itemIdToName.Clear();
-
-        statDict.Clear();
-        statNameToId.Clear();
-        statIdToName.Clear();
-
-        ItemData[] items = Resources.LoadAll<ItemData>("ItemData");
-        foreach (var item in items)
-        {
-            itemDict[item.Base.Key] = item;
-            DataMap[item.Base.Key] = item;
-            RegisterNameIdMap(item.Base.Key, item.Name.EN, itemIdToName, itemNameToId, "Item");
-        }
-
-        StatData[] stats = Resources.LoadAll<StatData>("StatData");
-        foreach (var stat in stats)
-        {
-            statDict[stat.Base.Key] = stat;
-            DataMap[stat.Base.Key] = stat;
-            RegisterNameIdMap(stat.Base.Key, stat.Name.EN, statIdToName, statNameToId, "Stat");
-        }
-
-        Debug.Log($"<color=cyan>[DataManager] 데이터 로드 완료: 아이템 {itemDict.Count}개, 스탯 {statDict.Count}개</color>");
-        if (AutoDumpIdNameMapOnInit)
-            Debug.Log(BuildIdNameMapReport());
+        LoadAll<ItemData>("ItemData");
+        LoadAll<StatData>("StatData");
+        LoadAll<DialogueData>("DialogueData");
+        LoadAll<DialogueGroupData>("DialogueGroupData");
     }
 
-    public ItemData GetItem(int id) {return itemDict.TryGetValue(id, out var data) ? data : null;}
-    public ItemData GetItem(string nameKey)
+    private void LoadAll<T>(string path) where T : ScriptableObject
     {
-        return TryGetItemId(nameKey, out int id) ? GetItem(id) : null;
+        int countBefore = DataMap.Count;
+        foreach (IGameData asset in Resources.LoadAll<T>(path))
+            DataMap[asset.Key] = asset; // 공통 인터페이스로 Key 추출
+        Debug.Log($"<color=cyan>[DataManager] {path} 경로에서 {DataMap.Count - countBefore}개의 {typeof(T).Name} 데이터를 로드했습니다.</color>");
     }
 
-    public bool TryGetItemId(string nameKey, out int id)
-    {
-        id = 0;
-        if (string.IsNullOrWhiteSpace(nameKey))
-            return false;
-        return itemNameToId.TryGetValue(nameKey.Trim(), out id);
-    }
-
-    public bool TryGetItemName(int id, out string name)
-    {
-        return itemIdToName.TryGetValue(id, out name);
-    }
-
-    public StatData GetStat(eStatType type) {return statDict.TryGetValue((int)type + GameDataHeaders.Stat, out var data) ? data : null;}
-    public StatData GetStat(int id) {return statDict.TryGetValue(id, out var data) ? data : null;}
-    public StatData GetStat(string nameKey)
-    {
-        return TryGetStatId(nameKey, out int id) ? GetStat(id) : null;
-    }
-
-    public bool TryGetStatId(string nameKey, out int id)
-    {
-        id = 0;
-        if (string.IsNullOrWhiteSpace(nameKey))
-            return false;
-        return statNameToId.TryGetValue(nameKey.Trim(), out id);
-    }
-
-    public bool TryGetStatName(int id, out string name)
-    {
-        return statIdToName.TryGetValue(id, out name);
-    }
-
-    [ContextMenu("Data/Dump ID Name Maps")]
-    public void DumpIdNameMaps()
-    {
-        Debug.Log(BuildIdNameMapReport());
-    }
-
-    private static void RegisterNameIdMap(
-        int id,
-        string name,
-        Dictionary<int, string> idToName,
-        Dictionary<string, int> nameToId,
-        string label)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            return;
-
-        string key = name.Trim();
-        idToName[id] = key;
-
-        if (nameToId.TryGetValue(key, out int existingId) && existingId != id)
-        {
-            Debug.LogWarning($"[DataManager] {label} Name 중복: {key} (기존:{existingId}, 신규:{id})");
-            return;
-        }
-
-        nameToId[key] = id;
-    }
-
-    private string BuildIdNameMapReport()
-    {
-        var sb = new StringBuilder(1024);
-        sb.AppendLine("[DataManager] ID <-> Name Map Dump");
-        sb.AppendLine("[Item]");
-        foreach (var pair in itemIdToName)
-            sb.AppendLine($"{pair.Key} <-> {pair.Value}");
-
-        sb.AppendLine("[Stat]");
-        foreach (var pair in statIdToName)
-            sb.AppendLine($"{pair.Key} <-> {pair.Value}");
-
-        return sb.ToString();
-    }
+    public IGameData GetData(int key) {return DataMap.TryGetValue(key, out var data) ? data : null;}
+    public ItemData GetItem(int key) {return DataMap.TryGetValue(key, out var data) ? data as ItemData : null;}
+    public StatData GetStat(int key) {return DataMap.TryGetValue(key, out var data) ? data as StatData : null;}
+    public DialogueData GetDialogue(int key) {return DataMap.TryGetValue(key, out var data) ? data as DialogueData : null;}
+    public DialogueGroupData GetDialogueGroup(int key) {return DataMap.TryGetValue(key, out var data) ? data as DialogueGroupData : null;}
 }

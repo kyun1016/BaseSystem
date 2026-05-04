@@ -10,7 +10,6 @@ public class UI_StatWindow : MonoBehaviour
 
     // 생성된 프리팹들을 추적하기 위한 딕셔너리
     private Dictionary<eStatType, UI_StatItem> spawnedItems = new Dictionary<eStatType, UI_StatItem>();
-    private bool isInitialized = false;
     private bool isWindowInitialized = false;
 
     private void Awake()
@@ -21,8 +20,7 @@ public class UI_StatWindow : MonoBehaviour
             windowRoot = statRoot != null ? statRoot.gameObject : gameObject;
         }
 
-        PlayerStatManager.Instance.OnStatChanged += HandleStatChanged;
-        isInitialized = true;
+        PlayerStatManager.Instance.OnChanged += HandleChanged;
     }
 
     private void OnEnable()
@@ -32,8 +30,6 @@ public class UI_StatWindow : MonoBehaviour
 
     private void OnDisable()
     {
-        // 창이 비활성화되어도 구독은 유지 (계속 이벤트 감지)
-        // UI 업데이트만 하지 않음
     }
 
     // private void OnDestroy()
@@ -41,7 +37,7 @@ public class UI_StatWindow : MonoBehaviour
     //     // 완전히 파괴될 때만 구독 해제
     //     if (PlayerStatManager.Instance != null)
     //     {
-    //         PlayerStatManager.Instance.OnStatChanged -= HandleStatChanged;
+    //         PlayerStatManager.Instance.OnChanged -= HandleChanged;
     //     }
     // }
     private void InitializeWindow()
@@ -50,7 +46,7 @@ public class UI_StatWindow : MonoBehaviour
 
         for (eStatType type = (eStatType)1; type < eStatType.MAX_COUNT; type++)
         {
-            StatData data = DataManager.Instance.GetStat(type);
+            StatData data = DataManager.Instance.GetStat(PlayerStatManager.BASE_KEY + (int)type);
             if(data == null) continue;
             if (data.StatCategory != statCategoryFilter) continue; // 필터링된 카테고리만 표시
 
@@ -82,19 +78,15 @@ public class UI_StatWindow : MonoBehaviour
 
     public void Sync()
     {
-        if (!isInitialized) return;
         if (!IsWindowVisible()) return;
         SyncStats();
     }
 
     // 이벤트가 발생하면 자동으로 실행되는 콜백 함수
-    private void HandleStatChanged(eStatType type, int newValue)
+    private void HandleChanged(eStatType type, int newValue)
     {
-        // UI가 비활성화되어 있으면 이벤트만 내부 상태에 반영하고
-        // 다시 활성화될 때 SyncStats()로 동기화
         if (!IsWindowVisible()) return;
 
-        // 내 화면에 해당 스텟 UI가 띄워져 있다면 값 갱신
         if (spawnedItems.TryGetValue(type, out UI_StatItem uiItem))
         {
             uiItem.UpdateValue(newValue);

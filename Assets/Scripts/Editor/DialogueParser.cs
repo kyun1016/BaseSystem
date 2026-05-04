@@ -53,7 +53,7 @@ public static class DialogueParser
 
         // 5. 스탈(stale) 에셋 삭제
         DeleteStale<DialogueData>(NodeSavePath, validNodePaths);
-        DeleteStale<DialogueGroup>(GroupSavePath, validGroupPaths);
+        DeleteStale<DialogueGroupData>(GroupSavePath, validGroupPaths);
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -147,13 +147,13 @@ public static class DialogueParser
         }
 
         // DialogueGroup 생성/갱신
-        string groupPath = $"{GroupSavePath}/DialogueGroup_{groupName}.asset";
+        string groupPath = $"{GroupSavePath}/DialogueGroupData_{groupName}.asset";
         validGroupPaths.Add(groupPath);
 
-        DialogueGroup group = AssetDatabase.LoadAssetAtPath<DialogueGroup>(groupPath);
+        DialogueGroupData group = AssetDatabase.LoadAssetAtPath<DialogueGroupData>(groupPath);
         if (group == null)
         {
-            group = ScriptableObject.CreateInstance<DialogueGroup>();
+            group = ScriptableObject.CreateInstance<DialogueGroupData>();
             AssetDatabase.CreateAsset(group, groupPath);
         }
         group.Base = new BaseData(GROUP_KEY_OFFSET * (groupNodes[0].ID / GROUP_KEY_OFFSET), eHeader.Dialogue, groupName);

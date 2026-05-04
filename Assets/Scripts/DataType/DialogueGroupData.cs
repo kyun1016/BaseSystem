@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "NewDialogueGroup", menuName = "ScriptableObjects/DialogueGroup", order = 2)]
-public class DialogueGroup : ScriptableObject, IGameData
+[CreateAssetMenu(fileName = "NewDialogueGroupData", menuName = "ScriptableObjects/DialogueGroupData", order = 2)]
+public class DialogueGroupData : ScriptableObject, IGameData
 {
     public BaseData Base;
     // IGameData 구현 — Base에 위임
