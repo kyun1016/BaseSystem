@@ -1,0 +1,105 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": -3820622204203497448
+  },
+  "m_Name": "CloudLoop Sprite Shape Profile",
+  "m_Angles": [
+    {
+      "m_Start": -180.0,
+      "m_End": 180.0,
+      "m_Order": 0,
+      "m_Sprites": [
+        {
+          "m_FileID": 2,
+          "m_PathID": 4436027621232883042
+        }
+      ]
+    }
+  ],
+  "m_FillTexture": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_CornerSprites": [
+    {
+      "m_CornerType": 0,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 1,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 2,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 3,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 4,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 5,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 6,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    },
+    {
+      "m_CornerType": 7,
+      "m_Sprites": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -1576513888533590774
+        }
+      ]
+    }
+  ],
+  "m_FillOffset": 0.0,
+  "m_UseSpriteBorders": 1
+}

@@ -1,0 +1,27 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": -5525067123657202301
+  },
+  "m_Name": "03_04_05_GOBLINs_Atlas",
+  "textureLoadingMode": 0,
+  "onDemandTextureLoader": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "atlasFile": {
+    "m_FileID": 2,
+    "m_PathID": -6327813546338864204
+  },
+  "materials": [
+    {
+      "m_FileID": 3,
+      "m_PathID": 7236768478351918438
+    }
+  ]
+}

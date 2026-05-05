@@ -1,0 +1,40 @@
+{
+  "m_GameObject": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  },
+  "m_Enabled": 1,
+  "m_Script": {
+    "m_FileID": 1,
+    "m_PathID": -6887505452609033796
+  },
+  "m_Name": "Alice13_SkeletonData",
+  "atlasAssets": [
+    {
+      "m_FileID": 2,
+      "m_PathID": 8983326277219703981
+    }
+  ],
+  "scale": 0.01,
+  "skeletonJSON": {
+    "m_FileID": 3,
+    "m_PathID": -1924447967892881809
+  },
+  "isUpgradingBlendModeMaterials": 0,
+  "blendModeMaterials": {
+    "requiresBlendModeMaterials": 0,
+    "applyAdditiveMaterial": 1,
+    "additiveMaterials": [],
+    "multiplyMaterials": [],
+    "screenMaterials": []
+  },
+  "skeletonDataModifiers": [],
+  "fromAnimation": [],
+  "toAnimation": [],
+  "duration": [],
+  "defaultMix": 0.2,
+  "controller": {
+    "m_FileID": 0,
+    "m_PathID": 0
+  }
+}
